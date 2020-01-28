@@ -26,3 +26,4 @@ public extension Color {
     static let green = Color(r: 0, g: 255, b: 0)
     static let blue = Color(r: 0, g: 0, b: 255)
 }
+
