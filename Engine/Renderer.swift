@@ -20,28 +20,28 @@ public struct Renderer {
 public extension Renderer {
     
     mutating func applyEffects(_ world: World) {
-    for effect in world.effects {
-          switch effect.type {
-          case .fadeIn:
-              bitmap.tint(with: effect.color, opacity: 1 - effect.progress)
-          case .fadeOut:
-              bitmap.tint(with: effect.color, opacity: effect.progress)
-        case .fizzleOut:
-              let threshold = Int(effect.progress * Double(fizzle.count))
-            
-            for y in 0 ..< bitmap.height {
-                for x in 0 ..< bitmap.width {
-                    let granularity = 4
-                    let index = y / granularity * bitmap.width + x / granularity
-                    let fizzledIndex = fizzle[index % fizzle.count]
-                    if fizzledIndex <= threshold {
-                        bitmap[x, y] = effect.color
+        for effect in world.effects {
+            switch effect.type {
+            case .fadeIn:
+                bitmap.tint(with: effect.color, opacity: 1 - effect.progress)
+            case .fadeOut:
+                bitmap.tint(with: effect.color, opacity: effect.progress)
+            case .fizzleOut:
+                let threshold = Int(effect.progress * Double(fizzle.count))
+                
+                for y in 0 ..< bitmap.height {
+                    for x in 0 ..< bitmap.width {
+                        let granularity = 4
+                        let index = y / granularity * bitmap.width + x / granularity
+                        let fizzledIndex = fizzle[index % fizzle.count]
+                        if fizzledIndex <= threshold {
+                            bitmap[x, y] = effect.color
+                        }
                     }
                 }
+                
             }
-            
-          }
-      }
+        }
     }
     
     mutating func draw2D(_ world: World) {
@@ -54,13 +54,13 @@ public extension Renderer {
                     min: Vector(x: Double(x), y: Double(y)) * scale,
                     max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
                 )
-                bitmap.fill(rect: rect, color: .red)
+                // bitmap.fill(rect: rect, color: .red)
                 let tile = world.map[x,y]
-                let wallTexture = textures[tile.textures[0]]
-                bitmap.draw(bitmap: wallTexture, inRect: rect)
-                // Draw wall
-                
-                
+                bitmap.drawImage(
+                    textures[tile.textures[0]],
+                    at:rect.min,
+                    size:rect.size
+                )
             }
         }
         
@@ -104,21 +104,19 @@ public extension Renderer {
                 end = hit
             }
             
-            
             bitmap.drawLine(from: ray.origin * scale, to: end * scale, color: .green)
             columnPosition += step
         }
         
-        
         for monster in world.monsters{
-            
-            let t = textures[monster.animation.texture]
             let rect = Rect(min: monster.rect.min * scale, max: monster.rect.max * scale)
-            bitmap.draw(bitmap: t, inRect: rect)
-            // Draw wall
+            bitmap.drawImage(
+                textures[monster.animation.texture],
+                at:rect.min,
+                size:rect.size
+            )
         }
         
-
         for y in 0 ..< world.map.height {
             for x in 0 ..< world.map.width {
                 if let c = world.seen[x, y]{
@@ -132,7 +130,7 @@ public extension Renderer {
         }
         
         // Effects
-         applyEffects( world)
+        applyEffects( world)
         
     }
     
@@ -229,9 +227,16 @@ public extension Renderer {
             columnPosition += step
         }
         
+        // Player weapon
+        let screenHeight = Double(bitmap.height)
+        bitmap.drawImage(
+           textures[world.player.animation.texture],
+            at: Vector(x: Double(bitmap.width) / 2 - screenHeight / 2, y: 0),
+            size: Vector(x: screenHeight, y: screenHeight)
+        )
         
         // Effects
-     applyEffects(world)
+        applyEffects(world)
         
     }
 }

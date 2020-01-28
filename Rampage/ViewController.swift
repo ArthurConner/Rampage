@@ -31,7 +31,9 @@ class ViewController: UIViewController {
     private let textures = loadTextures()
     private var world = World(map: loadMap())
     private var lastFrameTime = CACurrentMediaTime()
-
+private let tapGesture = UITapGestureRecognizer()
+    private var lastFiredTime = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpImageView()
@@ -40,6 +42,10 @@ class ViewController: UIViewController {
         displayLink.add(to: .main, forMode: .common)
 
         view.addGestureRecognizer(panGesture)
+        
+        view.addGestureRecognizer(tapGesture)
+        tapGesture.addTarget(self, action: #selector(fire))
+        
     }
 
     private var inputVector: Vector {
@@ -57,17 +63,23 @@ class ViewController: UIViewController {
             return Vector(x: 0, y: 0)
         }
     }
-
+    
+    @objc func fire(_ gestureRecognizer: UITapGestureRecognizer) {
+        lastFiredTime = CACurrentMediaTime()
+    }
+    
     @objc func update(_ displayLink: CADisplayLink) {
         let timeStep = min(maximumTimeStep, displayLink.timestamp - lastFrameTime)
         let inputVector = self.inputVector
         let rotation = inputVector.x * world.player.turningSpeed * worldTimeStep
        // print("vect")
        // print(self.inputVector.x,self.inputVector.y)
-        let input = Input(
+     let input = Input(
             speed: -inputVector.y,
-            rotation: Rotation(sine: sin(rotation), cosine: cos(rotation))
+            rotation: Rotation(sine: sin(rotation), cosine: cos(rotation)),
+            isFiring: lastFiredTime > lastFrameTime
         )
+        
         let worldSteps = (timeStep / worldTimeStep).rounded(.up)
         for _ in 0 ..< Int(worldSteps) {
             world.update(timeStep: timeStep / worldSteps, input: input)

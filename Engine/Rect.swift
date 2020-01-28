@@ -36,4 +36,8 @@ public extension Rect {
         return [left, right, up, down]
             .sorted(by: { $0.length < $1.length }).first
     }
+    
+    var size:Vector {
+        Vector(x: max.x-min.x, y: max.y-min.y)
+    }
 }

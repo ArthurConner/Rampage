@@ -83,8 +83,8 @@ public extension World {
             return
         }
         
-        player.direction = player.direction.rotated(by: input.rotation)
-        player.velocity = player.direction * input.speed * player.speed
+        player.animation.time += timeStep
+        player.update(with: input)
         player.position += player.velocity * timeStep
         while let intersection = player.intersection(with: map) {
             player.position -= intersection

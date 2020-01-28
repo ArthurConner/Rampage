@@ -30,10 +30,8 @@ enum KeyboardActions : String, CaseIterable {
     case turnLeft = "a"
     case turnRight = "d"
     case toggleMap = "m"
-    
-   
-        
-    
+    case space = " "
+
 }
 
 class ViewController: NSViewController {
@@ -42,6 +40,7 @@ class ViewController: NSViewController {
     private let textures = loadTextures()
     private var world = World(map: loadMap())
     private var lastFrameTime = CACurrentMediaTime()
+
     
     var timer:Timer?
     
@@ -106,18 +105,22 @@ class ViewController: NSViewController {
     }
     
     @objc func update() {
-        guard !isRender else {
-            return
-            
-        }
-        isRender = true
+
+    guard !isRender else {
+          return
+          
+      }
+      isRender = true
+        
         let currentTime = CACurrentMediaTime()
         let timeStep = min(maximumTimeStep, currentTime - lastFrameTime)
         let inputVector = self.inputVector
         let rotation = inputVector.x * world.player.turningSpeed * worldTimeStep
+        
         let input = Input(
             speed: -inputVector.y,
-            rotation: Rotation(sine: sin(rotation), cosine: cos(rotation))
+            rotation: Rotation(sine: sin(rotation), cosine: cos(rotation)),
+            isFiring: keyboardRemovals.contains(.space)
         )
         
         let worldSteps = (timeStep / worldTimeStep).rounded(.up)
@@ -149,7 +152,7 @@ class ViewController: NSViewController {
         imageView.image = NSImage(bitmap: renderer.bitmap)
         keyboardActions.subtract(keyboardRemovals)
         keyboardRemovals.removeAll()
-        isRender = false
+      isRender = false
     }
     
     
