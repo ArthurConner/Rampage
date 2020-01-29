@@ -38,11 +38,9 @@ public struct Player : Actor{
 
 
 public extension Player {
-    var isDead: Bool {
-        return health <= 0
-    }
+
     
-    mutating func update(with input: Input) {
+  mutating func update(with input: Input, in world: inout World) {
          direction = direction.rotated(by: input.rotation)
          velocity = direction * input.speed * speed
          
@@ -56,6 +54,10 @@ public extension Player {
             if animation.time >= attackCooldown {
                 state = .idle
                 animation = .pistolIdle
+                let ray = Ray(origin: position, direction: direction)
+                if let index = world.hitTest(ray) {
+                    world.hurtMonster(at: index, damage: 10)
+                }
             }
         }
         

@@ -10,7 +10,7 @@ import Foundation
 public struct Animation {
     public let frames: [Texture]
     public let duration: Double
-  public var time: Double = 0
+    public var time: Double = 0
     public init(frames: [Texture], duration: Double) {
         self.frames = frames
         self.duration = duration
@@ -24,5 +24,9 @@ public extension Animation {
         }
         let t = time.truncatingRemainder(dividingBy: duration) / duration
         return frames[Int(Double(frames.count) * t)]
+    }
+    
+    var isCompleted: Bool {
+        return time >= duration
     }
 }

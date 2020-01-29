@@ -12,6 +12,8 @@ public enum MonsterState {
     case idle
     case chasing
     case scratching
+    case hurt
+    case dead
 }
 
 public struct Monster : Actor {
@@ -19,6 +21,7 @@ public struct Monster : Actor {
     public let radius: Double = 0.4375
     public var state: MonsterState = .idle
     public var animation: Animation = .monsterIdle
+    public var health: Double = 50
     
     public var velocity: Vector = Vector(x: 0, y: 0)
     public let speed: Double = 0.5
@@ -28,7 +31,7 @@ public struct Monster : Actor {
     public init(position: Vector) {
         self.position = position
     }
-
+    
 }
 
 
@@ -88,8 +91,39 @@ public extension Monster {
                 lastAttackTime = animation.time
                 world.hurtPlayer(10)
             }
+        case .hurt:
+            if animation.isCompleted {
+                state = .idle
+                animation = .monsterIdle
+            }
+        case .dead:
+            if animation.isCompleted {
+                animation = .monsterDead
+            }
         }
     }
+    
+    func billboard(for ray: Ray) -> Billboard {
+        let plane = ray.direction.orthogonal
+        return Billboard(
+            start: position - plane / 2,
+            direction: plane,
+            length: 1,
+            texture: animation.texture
+        )
+    }
+    
+    func hitTest(_ ray: Ray) -> Vector? {
+        guard let hit = billboard(for: ray).hitTest(ray) else {
+            return nil
+        }
+        guard (hit - position).length < radius else {
+            return nil
+        }
+        return hit
+    }
+    
+    
     
 }
 
@@ -116,5 +150,17 @@ public extension Animation {
         .monsterScratch7,
         .monsterScratch8,
     ], duration: 0.8)
+    
+    static let monsterHurt = Animation(frames: [
+        .monsterHurt
+    ], duration: 0.2)
+    static let monsterDeath = Animation(frames: [
+        .monsterHurt,
+        .monsterDeath1,
+        .monsterDeath2
+    ], duration: 0.5)
+    static let monsterDead = Animation(frames: [
+        .monsterDead
+    ], duration: 0)
     
 }

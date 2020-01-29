@@ -11,6 +11,7 @@ import Foundation
 public protocol Actor {
     var radius: Double { get }
     var position: Vector { get set }
+     var health: Double { get set }
 }
 
 
@@ -41,5 +42,9 @@ public extension Actor {
 
     func intersection(with actor: Actor) -> Vector? {
         return rect.intersection(with: actor.rect)
+    }
+    
+    var isDead: Bool {
+        return health <= 0
     }
 }

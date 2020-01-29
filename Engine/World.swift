@@ -16,15 +16,8 @@ public struct World {
     public private(set) var monsters: [Monster] = []
     
     var sprites: [Billboard] {
-        let spritePlane = player.direction.orthogonal
-        return monsters.map { monster in
-            Billboard(
-                start: monster.position - spritePlane / 2,
-                direction: spritePlane,
-                length: 1,
-                texture: monster.animation.texture
-            )
-        }
+        let ray = Ray(origin: player.position, direction: player.direction)
+        return monsters.map { $0.billboard(for: ray) }
     }
     
     mutating func reset() {
@@ -83,9 +76,12 @@ public extension World {
             return
         }
         
+        var player = self.player!
         player.animation.time += timeStep
-        player.update(with: input)
+        player.update(with: input, in: &self)
         player.position += player.velocity * timeStep
+        self.player = player
+
         while let intersection = player.intersection(with: map) {
             player.position -= intersection
         }
@@ -136,4 +132,41 @@ public extension World {
             effects.append(Effect(type: .fizzleOut, color: .red, duration: 2))
         }
     }
+    
+    func hitTest(_ ray: Ray) -> Int? {
+        let wallHit = map.hitTest(ray)
+        var distance = (wallHit - ray.origin).length
+        
+        
+        var result: Int? = nil
+        for i in monsters.indices {
+            guard let hit = monsters[i].hitTest(ray) else {
+                continue
+            }
+            let hitDistance = (hit - ray.origin).length
+            guard hitDistance < distance else {
+                continue
+            }
+            result = i
+            distance = hitDistance
+        }
+        return result
+    }
+    
+    mutating func hurtMonster(at index: Int, damage: Double) {
+        var monster = monsters[index]
+        if monster.isDead {
+            return
+        }
+        monster.health -= damage
+        if monster.isDead {
+            monster.state = .dead
+            monster.animation = .monsterDeath
+        } else {
+            monster.state = .hurt
+            monster.animation = .monsterHurt
+        }
+        monsters[index] = monster
+    }
+    
 }
