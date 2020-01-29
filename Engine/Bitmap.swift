@@ -9,10 +9,12 @@
 public struct Bitmap {
     public private(set) var pixels: [Color]
     public let width: Int
-
+    public let isOpaque: Bool
+    
     public init(width: Int, pixels: [Color]) {
         self.width = width
         self.pixels = pixels
+        self.isOpaque = pixels.allSatisfy { $0.isOpaque }
     }
 }
 
@@ -36,6 +38,7 @@ public extension Bitmap {
     init(width: Int, height: Int, color: Color) {
         self.pixels = Array(repeating: color, count: width * height)
         self.width = width
+        self.isOpaque = color.isOpaque
     }
 
     mutating func fill(rect: Rect, color: Color) {
@@ -69,10 +72,17 @@ public extension Bitmap {
     mutating func drawColumn(_ sourceX: Int, of source: Bitmap, at point: Vector, height: Double) {
         let start = Int(point.y), end = Int((point.y + height).rounded(.up))
         let stepY = Double(source.height) / height
-        for y in max(0, start) ..< min(self.height, end) {
-            let sourceY = (Double(y) - point.y) * stepY
-            let sourceColor = source[sourceX, Int(sourceY)]
-           blendPixel(at: Int(point.x), y, with: sourceColor)
+        if source.isOpaque {
+            for y in max(0, start) ..< min(self.height, end) {
+                let sourceY = (Double(y) - point.y) * stepY
+               pixels[y * width + Int(point.x)] =  source[sourceX, Int(sourceY)]
+            }
+        } else {
+            for y in max(0, start) ..< min(self.height, end) {
+                let sourceY = (Double(y) - point.y) * stepY
+                let sourceColor = source[sourceX, Int(sourceY)]
+                blendPixel(at: Int(point.x), y, with: sourceColor)
+            }
         }
     }
     
@@ -90,13 +100,20 @@ public extension Bitmap {
     
     
     private mutating func blendPixel(at x: Int, _ y: Int, with newColor: Color) {
-        let oldColor = self[x, y]
-        let inverseAlpha = 1 - Double(newColor.a) / 255
-        self[x, y] = Color(
-            r: UInt8(Double(oldColor.r) * inverseAlpha) + newColor.r,
-            g: UInt8(Double(oldColor.g) * inverseAlpha) + newColor.g,
-            b: UInt8(Double(oldColor.b) * inverseAlpha) + newColor.b
-        )
+        switch newColor.a {
+        case 0:
+            break
+        case 255:
+            pixels[y * width + Int(x)] = newColor
+        default:
+            let oldColor = self[x, y]
+            let inverseAlpha = 1 - Double(newColor.a) / 255
+           pixels[y * width + Int(x)] = Color(
+                r: UInt8(Double(oldColor.r) * inverseAlpha) + newColor.r,
+                g: UInt8(Double(oldColor.g) * inverseAlpha) + newColor.g,
+                b: UInt8(Double(oldColor.b) * inverseAlpha) + newColor.b
+            )
+        }
     }
     
     mutating func tint(with color: Color, opacity: Double) {

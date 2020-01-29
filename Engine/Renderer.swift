@@ -6,10 +6,12 @@
 //  Copyright © 2019 Nick Lockwood. All rights reserved.
 //
 
+private let fizzle = (0 ..< 10000).shuffled()
+
 public struct Renderer {
     public private(set) var bitmap: Bitmap
     private let textures: Textures
-    private let fizzle = (0 ..< 10000).shuffled()
+   
     
     public init(width: Int, height: Int, textures: Textures) {
         self.bitmap = Bitmap(width: width, height: height, color: .black)
@@ -141,7 +143,7 @@ public extension Renderer {
         let viewPlane = world.player.direction.orthogonal * viewWidth
         let viewCenter = world.player.position + world.player.direction * focalLength
         let viewStart = viewCenter - viewPlane / 2
-        
+
         // Sort sprites by distance
         var spritesByDistance: [(distance: Double, sprite: Billboard)] = []
         for sprite in world.sprites {
@@ -151,6 +153,7 @@ public extension Renderer {
             )
         }
         spritesByDistance.sort(by: { $0.distance > $1.distance })
+
         // Cast rays
         let columns = bitmap.width
         let step = viewPlane / Double(columns)
@@ -164,7 +167,7 @@ public extension Renderer {
             )
             let end = world.map.hitTest(ray)
             let wallDistance = (end - ray.origin).length
-            
+
             // Draw wall
             let wallHeight = 1.0
             let distanceRatio = viewPlaneDistance / focalLength
@@ -183,7 +186,7 @@ public extension Renderer {
             let textureX = Int(wallX * Double(wallTexture.width))
             let wallStart = Vector(x: Double(x), y: (Double(bitmap.height) - height) / 2 + 0.001)
             bitmap.drawColumn(textureX, of: wallTexture, at: wallStart, height: height)
-            
+
             // Draw floor and ceiling
             var floorTile: Tile!
             var floorTexture, ceilingTexture: Bitmap!
@@ -204,10 +207,9 @@ public extension Renderer {
                 bitmap[x, y] = floorTexture[normalized: textureX, textureY]
                 bitmap[x, bitmap.height - y] = ceilingTexture[normalized: textureX, textureY]
             }
-            
+
             // Draw sprites
-            
-            for (_, sprite) in spritesByDistance  {
+            for (_, sprite) in spritesByDistance {
                 guard let hit = sprite.hitTest(ray) else {
                     continue
                 }
@@ -223,20 +225,23 @@ public extension Renderer {
                 let start = Vector(x: Double(x), y: (Double(bitmap.height) - height) / 2 + 0.001)
                 bitmap.drawColumn(textureX, of: spriteTexture, at: start, height: height)
             }
-            
+
             columnPosition += step
         }
-        
+
         // Player weapon
         let screenHeight = Double(bitmap.height)
         bitmap.drawImage(
-           textures[world.player.animation.texture],
+            textures[world.player.animation.texture],
             at: Vector(x: Double(bitmap.width) / 2 - screenHeight / 2, y: 0),
             size: Vector(x: screenHeight, y: screenHeight)
         )
-        
+
         // Effects
-        applyEffects(world)
-        
+         applyEffects(world)
+
     }
+   
+        
+    
 }

@@ -1,15 +1,14 @@
 //
-//  EngineXTests.swift
-//  EngineXTests
+//  LambpageTests.swift
+//  LambpageTests
 //
-//  Created by Arthur Conner on 1/24/20.
+//  Created by Arthur Conner on 1/29/20.
 //  Copyright © 2020 Nick Lockwood. All rights reserved.
 //
 
 import XCTest
-@testable import EngineX
-@testable import Lambpage
-
+import EngineX
+import Lambpage
 
 class RampageTests: XCTestCase {
     let world = World(map: loadMap())
@@ -22,3 +21,4 @@ class RampageTests: XCTestCase {
         }
     }
 }
+

@@ -12,13 +12,13 @@ import EngineX
 private let maximumTimeStep: Double = 1 / 20
 private let worldTimeStep: Double = 1 / 120
 
-private func loadMap() -> Tilemap {
+public func loadMap() -> Tilemap {
     let jsonURL = Bundle.main.url(forResource: "Map", withExtension: "json")!
     let jsonData = try! Data(contentsOf: jsonURL)
     return try! JSONDecoder().decode(Tilemap.self, from: jsonData)
 }
 
-private func loadTextures() -> Textures {
+public func loadTextures() -> Textures {
     return Textures(loader: { name in
         Bitmap(image:NSImage(named: name)!)!
     })
@@ -31,7 +31,7 @@ enum KeyboardActions : String, CaseIterable {
     case turnRight = "d"
     case toggleMap = "m"
     case space = " "
-
+    
 }
 
 class ViewController: NSViewController {
@@ -40,7 +40,7 @@ class ViewController: NSViewController {
     private let textures = loadTextures()
     private var world = World(map: loadMap())
     private var lastFrameTime = CACurrentMediaTime()
-
+    
     
     var timer:Timer?
     
@@ -48,7 +48,7 @@ class ViewController: NSViewController {
     var keyboardRemovals = Set<KeyboardActions>()
     var isRender = false
     var is3D = true
-
+    
     private var inputVector: Vector {
         var vector = Vector(x: 0, y: 0)
         if keyboardActions.contains(.forward) {
@@ -68,6 +68,10 @@ class ViewController: NSViewController {
     
     
     override func viewDidLoad() {
+        guard NSClassFromString("XCTestCase") == nil else {
+            return
+        }
+        
         super.viewDidLoad()
         setUpImageView()
         timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(update), userInfo: nil, repeats: true)
@@ -105,12 +109,12 @@ class ViewController: NSViewController {
     }
     
     @objc func update() {
-
-    guard !isRender else {
-          return
-          
-      }
-      isRender = true
+        
+        guard !isRender else {
+            return
+            
+        }
+        isRender = true
         
         let currentTime = CACurrentMediaTime()
         let timeStep = min(maximumTimeStep, currentTime - lastFrameTime)
@@ -129,22 +133,22 @@ class ViewController: NSViewController {
         }
         lastFrameTime = currentTime
         
-    
+        
         var width = Int(imageView.bounds.width), height = Int(imageView.bounds.height)
         
         if width > 480 {
-             height = Int(imageView.bounds.height*480/imageView.bounds.width)
+            height = Int(imageView.bounds.height*480/imageView.bounds.width)
             width = 480
         }
         var renderer = Renderer(width: width, height: height, textures: textures)
         
-      
+        
         if keyboardRemovals.contains(.toggleMap){
             is3D = !is3D
         }
         
         if  is3D{
-        renderer.draw(world)
+            renderer.draw(world)
         } else {
             renderer.draw2D(world)
         }
@@ -152,7 +156,7 @@ class ViewController: NSViewController {
         imageView.image = NSImage(bitmap: renderer.bitmap)
         keyboardActions.subtract(keyboardRemovals)
         keyboardRemovals.removeAll()
-      isRender = false
+        isRender = false
     }
     
     
@@ -164,7 +168,7 @@ class ViewController: NSViewController {
         imageView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         imageView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         imageView.imageScaling = .scaleAxesIndependently
-         imageView.imageAlignment = .alignTopLeft
+        imageView.imageAlignment = .alignTopLeft
         /*
          imageView.backgroundColor = .black
          imageView.layer.magnificationFilter = .nearest

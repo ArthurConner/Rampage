@@ -34,6 +34,8 @@
 		4AC6F2A423DF49A6007BFEAA /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A223DF49A6007BFEAA /* Effect.swift */; };
 		4AC6F2A623DF5F8F007BFEAA /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A523DF5F8F007BFEAA /* Easing.swift */; };
 		4AC6F2A723DF5F8F007BFEAA /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A523DF5F8F007BFEAA /* Easing.swift */; };
+		4AC6F2A823E23EE3007BFEAA /* Lambpage.app in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA816423DBB0C5005AE9DA /* Lambpage.app */; };
+		4AC6F2B223E23FD9007BFEAA /* LambpageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2B123E23FD9007BFEAA /* LambpageTests.swift */; };
 		4ACA814423DBB002005AE9DA /* EngineX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACA813B23DBB002005AE9DA /* EngineX.framework */; };
 		4ACA814923DBB002005AE9DA /* EngineXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA814823DBB002005AE9DA /* EngineXTests.swift */; };
 		4ACA814B23DBB002005AE9DA /* EngineX.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ACA813D23DBB002005AE9DA /* EngineX.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,6 +80,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 016E41C8228E9A8600ACF137;
 			remoteInfo = Engine;
+		};
+		4AC6F2A923E23F09007BFEAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 016E41A7228E9A5B00ACF137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4ACA816323DBB0C5005AE9DA;
+			remoteInfo = Lambpage;
+		};
+		4AC6F2B423E23FD9007BFEAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 016E41A7228E9A5B00ACF137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4ACA816323DBB0C5005AE9DA;
+			remoteInfo = Lambpage;
 		};
 		4ACA814523DBB002005AE9DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -148,6 +164,9 @@
 		01D09B0A22A7F7570052745A /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
 		4AC6F2A223DF49A6007BFEAA /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		4AC6F2A523DF5F8F007BFEAA /* Easing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
+		4AC6F2AF23E23FD9007BFEAA /* LambpageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LambpageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AC6F2B123E23FD9007BFEAA /* LambpageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambpageTests.swift; sourceTree = "<group>"; };
+		4AC6F2B323E23FD9007BFEAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4ACA813B23DBB002005AE9DA /* EngineX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EngineX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ACA813D23DBB002005AE9DA /* EngineX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EngineX.h; sourceTree = "<group>"; };
 		4ACA813E23DBB002005AE9DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -179,6 +198,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		016E41C6228E9A8600ACF137 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AC6F2AC23E23FD9007BFEAA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -219,6 +245,7 @@
 				4ACA813C23DBB002005AE9DA /* EngineX */,
 				4ACA814723DBB002005AE9DA /* EngineXTests */,
 				4ACA816523DBB0C5005AE9DA /* Lambpage */,
+				4AC6F2B023E23FD9007BFEAA /* LambpageTests */,
 				016E41B0228E9A5B00ACF137 /* Products */,
 				4ACA817423DBB0F7005AE9DA /* Frameworks */,
 			);
@@ -232,6 +259,7 @@
 				4ACA813B23DBB002005AE9DA /* EngineX.framework */,
 				4ACA814323DBB002005AE9DA /* EngineXTests.xctest */,
 				4ACA816423DBB0C5005AE9DA /* Lambpage.app */,
+				4AC6F2AF23E23FD9007BFEAA /* LambpageTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,6 +306,15 @@
 				016E41CC228E9A8600ACF137 /* Info.plist */,
 			);
 			path = Engine;
+			sourceTree = "<group>";
+		};
+		4AC6F2B023E23FD9007BFEAA /* LambpageTests */ = {
+			isa = PBXGroup;
+			children = (
+				4AC6F2B123E23FD9007BFEAA /* LambpageTests.swift */,
+				4AC6F2B323E23FD9007BFEAA /* Info.plist */,
+			);
+			path = LambpageTests;
 			sourceTree = "<group>";
 		};
 		4ACA813C23DBB002005AE9DA /* EngineX */ = {
@@ -377,6 +414,24 @@
 			productReference = 016E41C9228E9A8600ACF137 /* Engine.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		4AC6F2AE23E23FD9007BFEAA /* LambpageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4AC6F2B623E23FD9007BFEAA /* Build configuration list for PBXNativeTarget "LambpageTests" */;
+			buildPhases = (
+				4AC6F2AB23E23FD9007BFEAA /* Sources */,
+				4AC6F2AC23E23FD9007BFEAA /* Frameworks */,
+				4AC6F2AD23E23FD9007BFEAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4AC6F2B523E23FD9007BFEAA /* PBXTargetDependency */,
+			);
+			name = LambpageTests;
+			productName = LambpageTests;
+			productReference = 4AC6F2AF23E23FD9007BFEAA /* LambpageTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		4ACA813A23DBB002005AE9DA /* EngineX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4ACA815023DBB002005AE9DA /* Build configuration list for PBXNativeTarget "EngineX" */;
@@ -406,6 +461,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4AC6F2AA23E23F09007BFEAA /* PBXTargetDependency */,
 				4ACA814623DBB002005AE9DA /* PBXTargetDependency */,
 			);
 			name = EngineXTests;
@@ -450,6 +506,10 @@
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1130;
 					};
+					4AC6F2AE23E23FD9007BFEAA = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 4ACA816323DBB0C5005AE9DA;
+					};
 					4ACA813A23DBB002005AE9DA = {
 						CreatedOnToolsVersion = 11.3;
 					};
@@ -479,6 +539,7 @@
 				4ACA813A23DBB002005AE9DA /* EngineX */,
 				4ACA814223DBB002005AE9DA /* EngineXTests */,
 				4ACA816323DBB0C5005AE9DA /* Lambpage */,
+				4AC6F2AE23E23FD9007BFEAA /* LambpageTests */,
 			);
 		};
 /* End PBXProject section */
@@ -496,6 +557,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		016E41C7228E9A8600ACF137 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AC6F2AD23E23FD9007BFEAA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -567,6 +635,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4AC6F2AB23E23FD9007BFEAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AC6F2B223E23FD9007BFEAA /* LambpageTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4ACA813723DBB002005AE9DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -599,6 +675,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AC6F2A823E23EE3007BFEAA /* Lambpage.app in Sources */,
 				4ACA814923DBB002005AE9DA /* EngineXTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -620,6 +697,16 @@
 			isa = PBXTargetDependency;
 			target = 016E41C8228E9A8600ACF137 /* Engine */;
 			targetProxy = 016E41CE228E9A8600ACF137 /* PBXContainerItemProxy */;
+		};
+		4AC6F2AA23E23F09007BFEAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4ACA816323DBB0C5005AE9DA /* Lambpage */;
+			targetProxy = 4AC6F2A923E23F09007BFEAA /* PBXContainerItemProxy */;
+		};
+		4AC6F2B523E23FD9007BFEAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4ACA816323DBB0C5005AE9DA /* Lambpage */;
+			targetProxy = 4AC6F2B423E23FD9007BFEAA /* PBXContainerItemProxy */;
 		};
 		4ACA814623DBB002005AE9DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -874,6 +961,50 @@
 			};
 			name = Release;
 		};
+		4AC6F2B723E23FD9007BFEAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4GZYFCNRY8;
+				INFOPLIST_FILE = LambpageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = me.moments4.LambpageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lambpage.app/Contents/MacOS/Lambpage";
+			};
+			name = Debug;
+		};
+		4AC6F2B823E23FD9007BFEAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4GZYFCNRY8;
+				INFOPLIST_FILE = LambpageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = me.moments4.LambpageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lambpage.app/Contents/MacOS/Lambpage";
+			};
+			name = Release;
+		};
 		4ACA814C23DBB002005AE9DA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1046,6 +1177,15 @@
 			buildConfigurations = (
 				016E41D3228E9A8600ACF137 /* Debug */,
 				016E41D4228E9A8600ACF137 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4AC6F2B623E23FD9007BFEAA /* Build configuration list for PBXNativeTarget "LambpageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AC6F2B723E23FD9007BFEAA /* Debug */,
+				4AC6F2B823E23FD9007BFEAA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
