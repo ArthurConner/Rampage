@@ -4,22 +4,121 @@
 //
 //  Created by Nick Lockwood on 02/06/2019.
 //  Copyright © 2019 Nick Lockwood. All rights reserved.
-
-
+//
 
 public struct World {
     public let map: Tilemap
     public var seen = WorldVision(height: 1,width: 1)
-    public private(set) var effects: [Effect]
-    
+    public private(set) var monsters: [Monster]
     public private(set) var player: Player!
-    public private(set) var monsters: [Monster] = []
-    
+    public private(set) var effects: [Effect]
+
+    public init(map: Tilemap) {
+        self.map = map
+        self.monsters = []
+        self.effects = []
+        reset()
+    }
+}
+
+public extension World {
+    var size: Vector {
+        return map.size
+    }
+
+    mutating func update(timeStep: Double, input: Input) {
+        // Update effects
+        effects = effects.compactMap { effect in
+            guard effect.time < effect.duration else {
+                return nil
+            }
+            var effect = effect
+            effect.time += timeStep
+            return effect
+        }
+
+        // Update player
+        if player.isDead == false {
+            var player = self.player!
+            player.animation.time += timeStep
+            player.update(with: input, in: &self)
+            player.position += player.velocity * timeStep
+            self.player = player
+        } else if effects.isEmpty {
+            reset()
+            effects.append(Effect(type: .fadeIn, color: .red, duration: 0.5))
+            return
+        }
+        
+        seen.update(self)
+
+        // Update monsters
+        for i in 0 ..< monsters.count {
+            var monster = monsters[i]
+            monster.animation.time += timeStep
+            monster.update(in: &self)
+            monster.position += monster.velocity * timeStep
+            monsters[i] = monster
+        }
+
+        // Handle collisions
+        for i in 0 ..< monsters.count {
+            var monster = monsters[i]
+            if let intersection = player.intersection(with: monster) {
+                player.position -= intersection / 2
+                monster.position += intersection / 2
+            }
+            for j in i + 1 ..< monsters.count {
+                if let intersection = monster.intersection(with: monsters[j]) {
+                    monster.position -= intersection / 2
+                    monsters[j].position += intersection / 2
+                }
+            }
+            while let intersection = monster.intersection(with: map) {
+                monster.position -= intersection
+            }
+            monsters[i] = monster
+        }
+        while let intersection = player.intersection(with: map) {
+            player.position -= intersection
+        }
+    }
+
     var sprites: [Billboard] {
         let ray = Ray(origin: player.position, direction: player.direction)
         return monsters.map { $0.billboard(for: ray) }
     }
-    
+
+    mutating func hurtPlayer(_ damage: Double) {
+        if player.isDead {
+            return
+        }
+        player.health -= damage
+        player.velocity = Vector(x: 0, y: 0)
+        let color = Color(r: 255, g: 0, b: 0, a: 191)
+        effects.append(Effect(type: .fadeIn, color: color, duration: 0.2))
+        if player.isDead {
+            effects.append(Effect(type: .fizzleOut, color: .red, duration: 2))
+        }
+    }
+
+    mutating func hurtMonster(at index: Int, damage: Double) {
+        var monster = monsters[index]
+        if monster.isDead {
+            return
+        }
+        monster.health -= damage
+        monster.velocity = Vector(x: 0, y: 0)
+        if monster.isDead {
+            monster.state = .dead
+            monster.animation = .monsterDeath
+        } else {
+            monster.state = .hurt
+            monster.animation = .monsterHurt
+        }
+        monsters[index] = monster
+    }
+
     mutating func reset() {
         self.monsters = []
         for y in 0 ..< map.height {
@@ -37,107 +136,12 @@ public struct World {
             }
         }
         self.seen = WorldVision(height: map.height, width: map.width)
-    }
-    
-    public init(map: Tilemap) {
-        self.map = map
-        self.monsters = []
-        self.effects = []
-        reset()
-    }
-    
-}
 
-public extension World {
-    var size: Vector {
-        return map.size
     }
-    
-    mutating func update(timeStep: Double, input: Input) {
-        
-        
-        // Update effects
-        effects = effects.compactMap { effect in
-            if effect.isCompleted {
-                return nil
-            }
-            var effect = effect
-            effect.time += timeStep
-            return effect
-        }
-        
-        // Update player
-        if player.isDead == false {
-            player.direction = player.direction.rotated(by: input.rotation)
-            player.velocity = player.direction * input.speed * player.speed
-            player.position += player.velocity * timeStep
-        } else if effects.isEmpty {
-            reset()
-            return
-        }
-        
-        var player = self.player!
-        player.animation.time += timeStep
-        player.update(with: input, in: &self)
-        player.position += player.velocity * timeStep
-        self.player = player
 
-        while let intersection = player.intersection(with: map) {
-            player.position -= intersection
-        }
-        
-        seen.update(self)
-        
-        // Update monsters
-        for i in 0 ..< monsters.count {
-            var monster = monsters[i]
-            monster.update(in: &self)
-            monster.position += monster.velocity * timeStep
-            monsters[i] = monster
-        }
-        
-        // Handle collisions
-        for i in monsters.indices {
-            var monster = monsters[i]
-            if let intersection = player.intersection(with: monster) {
-                player.position -= intersection / 2
-                monster.position += intersection / 2
-                
-                for j in i + 1 ..< monsters.count  {
-                    if let intersection = monster.intersection(with: monsters[j]) {
-                        monster.position -= intersection / 2
-                        monsters[j].position += intersection / 2
-                    }
-                }
-                while let intersection = monster.intersection(with: map) {
-                    monster.position -= intersection
-                }
-            }
-            
-            monster.animation.time += timeStep
-            monsters[i] = monster
-        }
-        
-    }
-    
-    mutating func hurtPlayer(_ damage: Double) {
-        if player.isDead {
-            return
-        }
-        
-        player.health -= damage
-        print("player is at \(player.health)")
-        effects.append(Effect(type: .fadeIn, color: .red, duration: 0.2))
-        if player.isDead {
-            effects.append(Effect(type: .fizzleOut, color: .red, duration: 2))
-        }
-    }
-    
     func hitTest(_ ray: Ray) -> Int? {
         let wallHit = map.hitTest(ray)
         var distance = (wallHit - ray.origin).length
-        
-        
         var result: Int? = nil
         for i in monsters.indices {
             guard let hit = monsters[i].hitTest(ray) else {
@@ -152,21 +156,4 @@ public extension World {
         }
         return result
     }
-    
-    mutating func hurtMonster(at index: Int, damage: Double) {
-        var monster = monsters[index]
-        if monster.isDead {
-            return
-        }
-        monster.health -= damage
-        if monster.isDead {
-            monster.state = .dead
-            monster.animation = .monsterDeath
-        } else {
-            monster.state = .hurt
-            monster.animation = .monsterHurt
-        }
-        monsters[index] = monster
-    }
-    
 }

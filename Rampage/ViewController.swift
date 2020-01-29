@@ -41,8 +41,10 @@ private let tapGesture = UITapGestureRecognizer()
         let displayLink = CADisplayLink(target: self, selector: #selector(update))
         displayLink.add(to: .main, forMode: .common)
 
+        panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
         
+        tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
         tapGesture.addTarget(self, action: #selector(fire))
         
@@ -103,5 +105,15 @@ private let tapGesture = UITapGestureRecognizer()
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .black
         imageView.layer.magnificationFilter = .nearest
+    }
+}
+
+
+extension ViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        return true
     }
 }

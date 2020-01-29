@@ -6,13 +6,12 @@
 //  Copyright © 2019 Nick Lockwood. All rights reserved.
 //
 
-
 public enum PlayerState {
     case idle
     case firing
 }
 
-public struct Player : Actor{
+public struct Player: Actor {
     public let speed: Double = 2
     public let turningSpeed: Double = .pi
     public let radius: Double = 0.25
@@ -20,13 +19,11 @@ public struct Player : Actor{
     public var velocity: Vector
     public var direction: Vector
     public var health: Double
-    
     public var state: PlayerState = .idle
     public var animation: Animation = .pistolIdle
-    public let attackCooldown: Double = 0.4
-    
+    public let attackCooldown: Double = 0.25
     public private(set) var lastAttackTime: Double = 0
-    
+
     public init(position: Vector) {
         self.position = position
         self.velocity = Vector(x: 0, y: 0)
@@ -35,34 +32,41 @@ public struct Player : Actor{
     }
 }
 
-
-
 public extension Player {
+    var isDead: Bool {
+        return health <= 0
+    }
 
-    
-  mutating func update(with input: Input, in world: inout World) {
-         direction = direction.rotated(by: input.rotation)
-         velocity = direction * input.speed * speed
-         
+    var canFire: Bool {
         switch state {
         case .idle:
-            if input.isFiring {
-                state = .firing
-                animation = .pistolFire
-            }
+            return true
         case .firing:
-            if animation.time >= attackCooldown {
-                state = .idle
-                animation = .pistolIdle
-                let ray = Ray(origin: position, direction: direction)
-                if let index = world.hitTest(ray) {
-                    world.hurtMonster(at: index, damage: 10)
-                }
+            return animation.time >= attackCooldown
+        }
+    }
+
+    mutating func update(with input: Input, in world: inout World) {
+        direction = direction.rotated(by: input.rotation)
+        velocity = direction * input.speed * speed
+        if input.isFiring, canFire {
+            state = .firing
+            animation = .pistolFire
+            let ray = Ray(origin: position, direction: direction)
+            if let index = world.hitTest(ray) {
+                world.hurtMonster(at: index, damage: 10)
             }
         }
-        
-     }
-    
+        switch state {
+        case .idle:
+            break
+        case .firing:
+            if animation.isCompleted {
+                state = .idle
+                animation = .pistolIdle
+            }
+        }
+    }
 }
 
 public extension Animation {

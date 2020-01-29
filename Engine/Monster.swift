@@ -1,12 +1,10 @@
 //
 //  Monster.swift
-//  Rampage
+//  Engine
 //
-//  Created by Arthur Conner on 1/24/20.
-//  Copyright © 2020 Nick Lockwood. All rights reserved.
+//  Created by Nick Lockwood on 02/06/2019.
+//  Copyright © 2019 Nick Lockwood. All rights reserved.
 //
-
-import Foundation
 
 public enum MonsterState {
     case idle
@@ -16,46 +14,27 @@ public enum MonsterState {
     case dead
 }
 
-public struct Monster : Actor {
-    public var position: Vector
+public struct Monster: Actor {
+    public let speed: Double = 0.5
     public let radius: Double = 0.4375
+    public var position: Vector
+    public var velocity: Vector = Vector(x: 0, y: 0)
+    public var health: Double = 50
     public var state: MonsterState = .idle
     public var animation: Animation = .monsterIdle
-    public var health: Double = 50
-    
-    public var velocity: Vector = Vector(x: 0, y: 0)
-    public let speed: Double = 0.5
     public let attackCooldown: Double = 0.4
     public private(set) var lastAttackTime: Double = 0
-    
+
     public init(position: Vector) {
         self.position = position
     }
-    
 }
 
-
 public extension Monster {
-    
-    func canSeePlayer(in world: World) -> Bool {
-        let direction = world.player.position - position
-        let playerDistance = direction.length
-        let ray = Ray(origin: position, direction: direction / playerDistance)
-        let wallHit = world.map.hitTest(ray)
-        
-        let wallDistance = (wallHit - position).length
-        return wallDistance > playerDistance
-        
+    var isDead: Bool {
+        return health <= 0
     }
-    
-    func canReachPlayer(in world: World) -> Bool {
-        let reach = 0.25
-        let playerDistance = (world.player.position - position).length
-        return playerDistance - radius - world.player.radius < reach
-    }
-    
-    
-    
+
     mutating func update(in world: inout World) {
         switch state {
         case .idle:
@@ -63,24 +42,22 @@ public extension Monster {
                 state = .chasing
                 animation = .monsterWalk
             }
-            
-            velocity = Vector(x: 0, y: 0)
         case .chasing:
             guard canSeePlayer(in: world) else {
                 state = .idle
                 animation = .monsterIdle
+                velocity = Vector(x: 0, y: 0)
                 break
             }
-            
             if canReachPlayer(in: world) {
                 state = .scratching
                 animation = .monsterScratch
                 lastAttackTime = -attackCooldown
+                velocity = Vector(x: 0, y: 0)
+                break
             }
-            
             let direction = world.player.position - position
             velocity = direction * (speed / direction.length)
-            
         case .scratching:
             guard canReachPlayer(in: world) else {
                 state = .chasing
@@ -102,7 +79,22 @@ public extension Monster {
             }
         }
     }
-    
+
+    func canSeePlayer(in world: World) -> Bool {
+        let direction = world.player.position - position
+        let playerDistance = direction.length
+        let ray = Ray(origin: position, direction: direction / playerDistance)
+        let wallHit = world.map.hitTest(ray)
+        let wallDistance = (wallHit - position).length
+        return wallDistance > playerDistance
+    }
+
+    func canReachPlayer(in world: World) -> Bool {
+        let reach = 0.75
+        let playerDistance = (world.player.position - position).length
+        return playerDistance - world.player.radius < reach
+    }
+
     func billboard(for ray: Ray) -> Billboard {
         let plane = ray.direction.orthogonal
         return Billboard(
@@ -112,9 +104,9 @@ public extension Monster {
             texture: animation.texture
         )
     }
-    
+
     func hitTest(_ ray: Ray) -> Vector? {
-        guard let hit = billboard(for: ray).hitTest(ray) else {
+        guard isDead == false, let hit = billboard(for: ray).hitTest(ray) else {
             return nil
         }
         guard (hit - position).length < radius else {
@@ -122,9 +114,6 @@ public extension Monster {
         }
         return hit
     }
-    
-    
-    
 }
 
 public extension Animation {
@@ -137,9 +126,6 @@ public extension Animation {
         .monsterWalk2,
         .monster
     ], duration: 0.5)
-    
-    
-    
     static let monsterScratch = Animation(frames: [
         .monsterScratch1,
         .monsterScratch2,
@@ -150,7 +136,6 @@ public extension Animation {
         .monsterScratch7,
         .monsterScratch8,
     ], duration: 0.8)
-    
     static let monsterHurt = Animation(frames: [
         .monsterHurt
     ], duration: 0.2)
@@ -162,5 +147,4 @@ public extension Animation {
     static let monsterDead = Animation(frames: [
         .monsterDead
     ], duration: 0)
-    
 }
