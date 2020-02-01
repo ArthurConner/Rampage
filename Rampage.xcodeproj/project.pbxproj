@@ -34,10 +34,7 @@
 		4AC6F2A423DF49A6007BFEAA /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A223DF49A6007BFEAA /* Effect.swift */; };
 		4AC6F2A623DF5F8F007BFEAA /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A523DF5F8F007BFEAA /* Easing.swift */; };
 		4AC6F2A723DF5F8F007BFEAA /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A523DF5F8F007BFEAA /* Easing.swift */; };
-		4AC6F2A823E23EE3007BFEAA /* Lambpage.app in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA816423DBB0C5005AE9DA /* Lambpage.app */; };
 		4AC6F2B223E23FD9007BFEAA /* LambpageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2B123E23FD9007BFEAA /* LambpageTests.swift */; };
-		4ACA814423DBB002005AE9DA /* EngineX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACA813B23DBB002005AE9DA /* EngineX.framework */; };
-		4ACA814923DBB002005AE9DA /* EngineXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA814823DBB002005AE9DA /* EngineXTests.swift */; };
 		4ACA814B23DBB002005AE9DA /* EngineX.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ACA813D23DBB002005AE9DA /* EngineX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ACA815223DBB00E005AE9DA /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09AF222A482030052745A /* Bitmap.swift */; };
 		4ACA815323DBB011005AE9DA /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09AF022A481AB0052745A /* Color.swift */; };
@@ -81,26 +78,12 @@
 			remoteGlobalIDString = 016E41C8228E9A8600ACF137;
 			remoteInfo = Engine;
 		};
-		4AC6F2A923E23F09007BFEAA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 016E41A7228E9A5B00ACF137 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4ACA816323DBB0C5005AE9DA;
-			remoteInfo = Lambpage;
-		};
 		4AC6F2B423E23FD9007BFEAA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 016E41A7228E9A5B00ACF137 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 4ACA816323DBB0C5005AE9DA;
 			remoteInfo = Lambpage;
-		};
-		4ACA814523DBB002005AE9DA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 016E41A7228E9A5B00ACF137 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4ACA813A23DBB002005AE9DA;
-			remoteInfo = EngineX;
 		};
 		4ACA817723DBB0F7005AE9DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -170,9 +153,6 @@
 		4ACA813B23DBB002005AE9DA /* EngineX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EngineX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ACA813D23DBB002005AE9DA /* EngineX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EngineX.h; sourceTree = "<group>"; };
 		4ACA813E23DBB002005AE9DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4ACA814323DBB002005AE9DA /* EngineXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EngineXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4ACA814823DBB002005AE9DA /* EngineXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineXTests.swift; sourceTree = "<group>"; };
-		4ACA814A23DBB002005AE9DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4ACA816423DBB0C5005AE9DA /* Lambpage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lambpage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ACA816623DBB0C5005AE9DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4ACA816823DBB0C5005AE9DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -218,14 +198,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4ACA814023DBB002005AE9DA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4ACA814423DBB002005AE9DA /* EngineX.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4ACA816123DBB0C5005AE9DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,7 +215,6 @@
 				016E41B1228E9A5B00ACF137 /* Rampage */,
 				016E41CA228E9A8600ACF137 /* Engine */,
 				4ACA813C23DBB002005AE9DA /* EngineX */,
-				4ACA814723DBB002005AE9DA /* EngineXTests */,
 				4ACA816523DBB0C5005AE9DA /* Lambpage */,
 				4AC6F2B023E23FD9007BFEAA /* LambpageTests */,
 				016E41B0228E9A5B00ACF137 /* Products */,
@@ -257,7 +228,6 @@
 				016E41AF228E9A5B00ACF137 /* Rampage.app */,
 				016E41C9228E9A8600ACF137 /* Engine.framework */,
 				4ACA813B23DBB002005AE9DA /* EngineX.framework */,
-				4ACA814323DBB002005AE9DA /* EngineXTests.xctest */,
 				4ACA816423DBB0C5005AE9DA /* Lambpage.app */,
 				4AC6F2AF23E23FD9007BFEAA /* LambpageTests.xctest */,
 			);
@@ -324,15 +294,6 @@
 				4ACA813E23DBB002005AE9DA /* Info.plist */,
 			);
 			path = EngineX;
-			sourceTree = "<group>";
-		};
-		4ACA814723DBB002005AE9DA /* EngineXTests */ = {
-			isa = PBXGroup;
-			children = (
-				4ACA814823DBB002005AE9DA /* EngineXTests.swift */,
-				4ACA814A23DBB002005AE9DA /* Info.plist */,
-			);
-			path = EngineXTests;
 			sourceTree = "<group>";
 		};
 		4ACA816523DBB0C5005AE9DA /* Lambpage */ = {
@@ -450,25 +411,6 @@
 			productReference = 4ACA813B23DBB002005AE9DA /* EngineX.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		4ACA814223DBB002005AE9DA /* EngineXTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4ACA815123DBB002005AE9DA /* Build configuration list for PBXNativeTarget "EngineXTests" */;
-			buildPhases = (
-				4ACA813F23DBB002005AE9DA /* Sources */,
-				4ACA814023DBB002005AE9DA /* Frameworks */,
-				4ACA814123DBB002005AE9DA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4AC6F2AA23E23F09007BFEAA /* PBXTargetDependency */,
-				4ACA814623DBB002005AE9DA /* PBXTargetDependency */,
-			);
-			name = EngineXTests;
-			productName = EngineXTests;
-			productReference = 4ACA814323DBB002005AE9DA /* EngineXTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		4ACA816323DBB0C5005AE9DA /* Lambpage */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4ACA817123DBB0C7005AE9DA /* Build configuration list for PBXNativeTarget "Lambpage" */;
@@ -513,9 +455,6 @@
 					4ACA813A23DBB002005AE9DA = {
 						CreatedOnToolsVersion = 11.3;
 					};
-					4ACA814223DBB002005AE9DA = {
-						CreatedOnToolsVersion = 11.3;
-					};
 					4ACA816323DBB0C5005AE9DA = {
 						CreatedOnToolsVersion = 11.3;
 					};
@@ -537,7 +476,6 @@
 				016E41AE228E9A5B00ACF137 /* Rampage */,
 				016E41C8228E9A8600ACF137 /* Engine */,
 				4ACA813A23DBB002005AE9DA /* EngineX */,
-				4ACA814223DBB002005AE9DA /* EngineXTests */,
 				4ACA816323DBB0C5005AE9DA /* Lambpage */,
 				4AC6F2AE23E23FD9007BFEAA /* LambpageTests */,
 			);
@@ -571,13 +509,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4ACA813923DBB002005AE9DA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4ACA814123DBB002005AE9DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -671,15 +602,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4ACA813F23DBB002005AE9DA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4AC6F2A823E23EE3007BFEAA /* Lambpage.app in Sources */,
-				4ACA814923DBB002005AE9DA /* EngineXTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4ACA816023DBB0C5005AE9DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -698,20 +620,10 @@
 			target = 016E41C8228E9A8600ACF137 /* Engine */;
 			targetProxy = 016E41CE228E9A8600ACF137 /* PBXContainerItemProxy */;
 		};
-		4AC6F2AA23E23F09007BFEAA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4ACA816323DBB0C5005AE9DA /* Lambpage */;
-			targetProxy = 4AC6F2A923E23F09007BFEAA /* PBXContainerItemProxy */;
-		};
 		4AC6F2B523E23FD9007BFEAA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4ACA816323DBB0C5005AE9DA /* Lambpage */;
 			targetProxy = 4AC6F2B423E23FD9007BFEAA /* PBXContainerItemProxy */;
-		};
-		4ACA814623DBB002005AE9DA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4ACA813A23DBB002005AE9DA /* EngineX */;
-			targetProxy = 4ACA814523DBB002005AE9DA /* PBXContainerItemProxy */;
 		};
 		4ACA817823DBB0F7005AE9DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -965,6 +877,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4GZYFCNRY8;
@@ -987,6 +900,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4GZYFCNRY8;
@@ -1060,48 +974,6 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		4ACA814E23DBB002005AE9DA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 4GZYFCNRY8;
-				INFOPLIST_FILE = EngineXTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = me.moments4.EngineXTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		4ACA814F23DBB002005AE9DA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 4GZYFCNRY8;
-				INFOPLIST_FILE = EngineXTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = me.moments4.EngineXTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1195,15 +1067,6 @@
 			buildConfigurations = (
 				4ACA814C23DBB002005AE9DA /* Debug */,
 				4ACA814D23DBB002005AE9DA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4ACA815123DBB002005AE9DA /* Build configuration list for PBXNativeTarget "EngineXTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4ACA814E23DBB002005AE9DA /* Debug */,
-				4ACA814F23DBB002005AE9DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
