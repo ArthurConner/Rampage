@@ -37,6 +37,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4A784FFE23E8E69E00E9317C"
+               BuildableName = "RampageTests.xctest"
+               BlueprintName = "RampageTests"
+               ReferencedContainer = "container:Rampage.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

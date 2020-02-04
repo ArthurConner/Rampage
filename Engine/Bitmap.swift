@@ -23,10 +23,10 @@ public extension Bitmap {
 
 
     subscript(x: Int, y: Int) -> Color {
-        get { return pixels[y * width + x] }
+        get { return pixels[x * height + y] }
         set {
             guard x >= 0, y >= 0, x < width, y < height else { return }
-            pixels[y * width + x] = newValue
+            pixels[x * height + y] = newValue
         }
     }
 
@@ -72,16 +72,19 @@ public extension Bitmap {
     mutating func drawColumn(_ sourceX: Int, of source: Bitmap, at point: Vector, height: Double) {
         let start = Int(point.y), end = Int((point.y + height).rounded(.up))
         let stepY = Double(source.height) / height
+         let offset = Int(point.x) * self.height
+        
         if source.isOpaque {
             for y in max(0, start) ..< min(self.height, end) {
-                let sourceY = (Double(y) - point.y) * stepY
-               pixels[y * width + Int(point.x)] =  source[sourceX, Int(sourceY)]
+                 let sourceY = (Double(y) - point.y) * stepY
+                 let sourceColor = source[sourceX, Int(sourceY)]
+                 pixels[offset + y] = sourceColor
             }
         } else {
             for y in max(0, start) ..< min(self.height, end) {
                 let sourceY = (Double(y) - point.y) * stepY
                 let sourceColor = source[sourceX, Int(sourceY)]
-                blendPixel(at: Int(point.x) +  y * width, with: sourceColor)
+                blendPixel(at: offset + y, with: sourceColor)
             }
         }
     }

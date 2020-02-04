@@ -9,21 +9,22 @@
 import Cocoa
 import EngineX
 
+
 extension NSImage {
     convenience init?(bitmap: Bitmap) {
         let alphaInfo = CGImageAlphaInfo.premultipliedLast
         let bytesPerPixel = MemoryLayout<Color>.size
-        let bytesPerRow = bitmap.width * bytesPerPixel
+        let bytesPerRow = bitmap.height * bytesPerPixel
 
         guard let providerRef = CGDataProvider(data: Data(
-            bytes: bitmap.pixels, count: bitmap.height * bytesPerRow
+            bytes: bitmap.pixels, count: bitmap.width * bytesPerRow
         ) as CFData) else {
             return nil
         }
 
         guard let cgImage = CGImage(
-            width: bitmap.width,
-            height: bitmap.height,
+            width: bitmap.height,
+            height: bitmap.width,
             bitsPerComponent: 8,
             bitsPerPixel: bytesPerPixel * 8,
             bytesPerRow: bytesPerRow,
@@ -37,28 +38,41 @@ extension NSImage {
             return nil
         }
 
-        self.init( cgImage:cgImage,  size:NSSize(width: bitmap.width, height: bitmap.height))
+        let rotatedSize = NSSize(width: bitmap.height, height: bitmap.width)
+        let rotatedImage = NSImage(cgImage: cgImage, size: rotatedSize)
+        let transform = NSAffineTransform()
+        transform.rotate(byDegrees: 90)
+        transform.scaleX(by: -1, yBy: 1)
+        transform.translateX(by: -rotatedSize.width, yBy: -rotatedSize.height)
+        self.init(size: NSSize(width: bitmap.width, height: bitmap.height))
+        self.lockFocus()
+        transform.concat()
+        rotatedImage.draw(in: NSRect(origin: .zero, size: rotatedSize))
+        self.unlockFocus()
     }
 }
 
 extension Bitmap {
     init?(image: NSImage) {
-        var imageRect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        
-        guard let cgImage = image.cgImage(forProposedRect:&imageRect, context: nil, hints: nil)
-         else {
+        var rect = NSRect(
+            x: 0,
+            y: 0,
+            width: Int(image.size.width),
+            height: Int(image.size.height)
+        )
+        guard let cgImage = image.cgImage(forProposedRect: &rect, context: nil, hints: nil) else {
             return nil
         }
 
         let alphaInfo = CGImageAlphaInfo.premultipliedLast
         let bytesPerPixel = MemoryLayout<Color>.size
-        let bytesPerRow = cgImage.width * bytesPerPixel
+        let bytesPerRow = cgImage.height * bytesPerPixel
 
         var pixels = [Color](repeating: .clear, count: cgImage.width * cgImage.height)
         guard let context = CGContext(
             data: &pixels,
-            width: cgImage.width,
-            height: cgImage.height,
+            width: cgImage.height,
+            height: cgImage.width,
             bitsPerComponent: 8,
             bytesPerRow: bytesPerRow,
             space: CGColorSpaceCreateDeviceRGB(),
@@ -67,7 +81,10 @@ extension Bitmap {
             return nil
         }
 
-        context.draw(cgImage, in: CGRect(origin: .zero, size: image.size))
+        context.translateBy(x: rect.size.height, y: rect.size.width)
+        context.rotate(by: .pi/2)
+        context.scaleBy(x: -1, y: 1)
+        context.draw(cgImage, in: NSRectToCGRect(rect))
         self.init(width: cgImage.width, pixels: pixels)
     }
 }
