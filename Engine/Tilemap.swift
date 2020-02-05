@@ -22,7 +22,7 @@ public extension Tilemap {
     }
 
     subscript(x: Int, y: Int) -> Tile {
-        return tiles[y * width + x]
+       return tiles[y * width + x]
     }
 
     func tile(at position: Vector, from direction: Vector) -> Tile {
@@ -36,6 +36,7 @@ public extension Tilemap {
         return self[Int(position.x) + offsetX, Int(position.y) + offsetY]
     }
 
+    /*
     func hitTest(_ ray: Ray) -> Vector {
         var position = ray.origin
         let slope = ray.direction.x / ray.direction.y
@@ -60,5 +61,10 @@ public extension Tilemap {
             }
         } while tile(at: position, from: ray.direction).isWall == false
         return position
+    }
+    */
+    
+    func hitTest(_ ray: Ray) -> Vector {
+        SightLine(ray: ray, map: self, halt:SightLine.hitWall).last()
     }
 }
