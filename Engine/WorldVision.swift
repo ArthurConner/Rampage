@@ -110,45 +110,79 @@ struct SightLineIterator: IteratorProtocol {
     }
 }
 
-/*
+
+struct RayCaster: Sequence {
+    let focalLength, viewWidth:Double
+    let viewPlane, viewCenter,origin:Vector
+    let columns:Int
+    
+    var viewStart:Vector{
+        viewCenter - viewPlane / 2
+    }
+    
+    var rayDirection:Vector{
+        origin
+    } //= columnPosition - world.player.position
+    
+    init(focalLength:Double,viewWidth:Double, direction:Vector, origin:Vector,columns:Int) {
+        self.focalLength = focalLength
+        self.viewWidth = viewWidth
+        self.viewPlane = direction.orthogonal * viewWidth
+        self.viewCenter = origin + direction * focalLength
+        self.origin = origin
+
+        self.columns = columns
+        
+    }
+    
+    func makeIterator() -> RayCasterIterator {
+        return RayCasterIterator(self)
+    }
+    
+}
+
+struct RayCasterIterator: IteratorProtocol {
+    let caster:RayCaster
+    var columnPosition:Vector?
+    var counter = 0
+    let step:Vector
+    
+    init(_ r: RayCaster) {
+        self.caster = r
+        step = r.viewPlane / Double(r.columns)
+    }
+    
+    func rayFor(position:Vector)->(Int,Vector, Ray){
+        let rayDirection = position - caster.origin
+        
+        let viewPlaneDistance = rayDirection.length
+        let ray = Ray(
+            origin: caster.origin,
+            direction: rayDirection / viewPlaneDistance
+        )
  
-  var lhs = ray, rhs = Ray(origin: start, direction: direction)
-
- let epsilon = 0.00001
- if abs(lhs.direction.x) < epsilon {
-     lhs.direction.x = epsilon
- }
- if abs(rhs.direction.x) < epsilon {
-     rhs.direction.x = epsilon
- }
-  
-  //let slope = direction.y / direction.x
-  //let intercept = origin.y - slope * origin.x
-  
-  let (slope1, intercept1) = lhs.slopeIntercept
-  let (slope2, intercept2) = rhs.slopeIntercept
-  
-  if slope1 == slope2 {
-      return nil
-  }
-
-  // Find intersection point
-  let x = (intercept1 - intercept2) / (slope2 - slope1)
-  let y = slope1 * x + intercept1
-
-  // Check intersection point is in range
-  let distanceAlongRay = (x - lhs.origin.x) / lhs.direction.x
-  if distanceAlongRay < 0 {
-      return nil
-  }
-  let distanceAlongBillboard = (x - rhs.origin.x) / rhs.direction.x
-  if distanceAlongBillboard < 0 || distanceAlongBillboard > length {
-      return nil
-  }
-  return Vector(x: x, y: y)
- }
- 
- */
+        return (counter, rayDirection, ray)
+        
+    }
+    
+    mutating func next() -> (Int,Vector, Ray)? {
+        
+        counter += 1
+        
+        guard let cp = columnPosition else {
+            columnPosition = caster.viewStart
+            return rayFor(position: columnPosition!)
+        }
+        
+        guard counter < caster.columns else {
+            return nil
+        }
+        columnPosition = cp + step
+        return rayFor(position: columnPosition!)
+        
+        
+    }
+}
 
 
 public struct WorldVision {
@@ -206,13 +240,14 @@ extension WorldVision {
         
         for i in points {
             let (x,y) = points.coord(i)
-             index =  y * width + x
+            index =  y * width + x
             tiles[index] = (now, false)
         }
         tiles[index] = (now, true)
     }
     
     
+    /*
     mutating func update(_ world: World){
         
         let focalLength = 1.0
@@ -237,6 +272,22 @@ extension WorldVision {
             self.markSeen(ray, world:world)
             columnPosition += step
         }
+        
+    }
+ */
+    
+    mutating func update(_ world: World){
+        
+        let caster = RayCaster(focalLength: 1.0,
+                               viewWidth: 1.0,
+                               direction: world.player.direction,
+                               origin: world.player.position,
+                               columns: 10)
+        
+        for (_,_,ray) in caster {
+             self.markSeen(ray, world:world)
+        }
+        
         
     }
     
