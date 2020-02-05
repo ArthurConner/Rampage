@@ -71,6 +71,8 @@ public extension Renderer {
         var rect = world.player.rect
         rect.min *= scale
         rect.max *= scale
+        
+        //rect = Rect(min: Vector(x: rect.min.y, y: rect.min.x), max: Vector(x: rect.max.y,y: rect.max.x))
         bitmap.fill(rect: rect, color: .blue)
         
         // Draw view plane

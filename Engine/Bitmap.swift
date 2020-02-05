@@ -41,13 +41,7 @@ public extension Bitmap {
         self.isOpaque = color.isOpaque
     }
 
-    mutating func fill(rect: Rect, color: Color) {
-        for y in Int(rect.min.y) ..< Int(rect.max.y) {
-            for x in Int(rect.min.x) ..< Int(rect.max.x) {
-                self[x, y] = color
-            }
-        }
-    }
+
 
     mutating func drawLine(from: Vector, to: Vector, color: Color) {
         let difference = to - from
@@ -146,8 +140,23 @@ public extension Bitmap {
         
           for y in Int(rect.min.y) ..< Int(rect.max.y) {
               for x in Int(rect.min.x) ..< Int(rect.max.x) {
-                blendPixel(at:y * width + x, with:color)
+                blendPixel(at:x * height + y, with:color)
               }
           }
       }
+    
+    mutating func fill(rect: Rect, color: Color) {
+        for y in Int(rect.min.y) ..< Int(rect.max.y) {
+            for x in Int(rect.min.x) ..< Int(rect.max.x) {
+                self[x, y] = color
+            }
+        }
+    }
+    
 }
+
+
+
+ 
+
+

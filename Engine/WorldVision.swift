@@ -9,12 +9,12 @@
 import Foundation
 
 public struct WorldVision {
-    private var tiles: [Date?]
+    private var tiles: [(Date,Bool)?]
     
     public let width: Int
-    private let length = 15.0
-    private let start = 2.0
-    private let maxFade = 0.95
+    private let duration = 15.0
+    private let delay = 2.0
+    private let finalAlpha = 0.95
 }
 
 extension WorldVision {
@@ -23,24 +23,28 @@ extension WorldVision {
     }
     
     
-    private func lookup(x: Int, y: Int) -> Date? {
+    private func lookup(x: Int, y: Int) -> (Date,Bool)? {
         return tiles[y * width + x]
     }
     
     
     subscript(x: Int, y: Int) -> Effect?{
-        var effect = Effect(type: .fadeOut, color: .gray, duration: length)
+        var effect = Effect(type: .fadeOut, color: .gray, duration: duration)
         
-        guard let val = lookup(x: x,y: y) else {
-            effect.time = length
+        guard let (val,isWall) = lookup(x: x,y: y) else {
+            effect.time = duration
             return effect
         }
-        let foo = -val.timeIntervalSinceNow
-        if foo < start {
+        let timeSinceSeen = -val.timeIntervalSinceNow
+        if timeSinceSeen < delay {
             return nil
         }
-
-        effect.time = min((foo - start),maxFade*length)
+        
+        if isWall {
+            return nil
+        }
+        
+        effect.time = min((timeSinceSeen - delay),duration)
         return effect
         
     }
@@ -52,9 +56,34 @@ extension WorldVision {
     }
     
     private mutating func markSeen(_ ray: Ray,tileMap:Tilemap) {
+        let now = Date()
+        
+        
         var position = ray.origin
+        
+        
+        func updatePos(){
+            
+            var offsetX = 0, offsetY = 0
+            if position.x.rounded(.down) == position.x {
+                offsetX = ray.direction.x > 0 ? 0 : -1
+            }
+            if position.y.rounded(.down) == position.y {
+                offsetY = ray.direction.y > 0 ? 0 : -1
+            }
+            
+            let x = Int(position.x) + offsetX
+            let y = Int(position.y) + offsetY
+            
+            let index =  y * width + x
+            tiles[index] = (now, tileMap.tile(at: position, from: ray.direction).isWall)
+        }
+        
+        updatePos()
+        
         let slope = ray.direction.x / ray.direction.y
         repeat {
+            
             let edgeDistanceX, edgeDistanceY: Double
             if ray.direction.x > 0 {
                 edgeDistanceX = position.x.rounded(.down) + 1 - position.x
@@ -66,6 +95,7 @@ extension WorldVision {
             } else {
                 edgeDistanceY = position.y.rounded(.up) - 1 - position.y
             }
+            
             let step1 = Vector(x: edgeDistanceX, y: edgeDistanceX / slope)
             let step2 = Vector(x: edgeDistanceY * slope, y: edgeDistanceY)
             if step1.length < step2.length {
@@ -74,12 +104,11 @@ extension WorldVision {
                 position += step2
             }
             
-            tiles[Int(position.y)  * width + Int(position.x)] = Date()
-            
+            updatePos()
             
         } while tileMap.tile(at: position, from: ray.direction).isWall == false
-       // let end = world.map.hitTest(ray)
-        tiles[Int(position.y)  * width + Int(position.x)] = Date()
+        // let end = world.map.hitTest(ray)
+        updatePos()
     }
     
     
@@ -90,7 +119,7 @@ extension WorldVision {
         let viewPlane = world.player.direction.orthogonal * viewWidth
         let viewCenter = world.player.position + world.player.direction * focalLength
         let viewStart = viewCenter - viewPlane / 2
-
+        
         // Cast rays
         let columns = 10
         let step = viewPlane / Double(columns)
