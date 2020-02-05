@@ -65,6 +65,6 @@ public extension Tilemap {
     */
     
     func hitTest(_ ray: Ray) -> Vector {
-        SightLine(ray: ray, map: self, halt:SightLine.hitWall).last()
+        SightLine(ray: ray, map: self).last()
     }
 }

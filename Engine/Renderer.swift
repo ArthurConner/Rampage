@@ -146,14 +146,12 @@ public extension Renderer {
                                columns: bitmap.width)
         
         for (x, ray) in caster.enumerated() {
-            let rayDirection = caster.rayDirection(x: x)
-            let viewPlaneDistance = rayDirection.length
             let end = world.map.hitTest(ray)
             let wallDistance = (end - ray.origin).length
             
             // Draw wall
             let wallHeight = 1.0
-            let distanceRatio = viewPlaneDistance / caster.focalLength
+            let distanceRatio = caster.distanceRatio(x)
             let perpendicular = wallDistance / distanceRatio
             let height = wallHeight * caster.focalLength / perpendicular * Double(bitmap.height)
             let wallTexture: Bitmap

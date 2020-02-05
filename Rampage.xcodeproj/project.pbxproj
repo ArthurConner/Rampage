@@ -69,6 +69,8 @@
 		4ACA818823DC9C3D005AE9DA /* WorldVision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA818623DC9C3D005AE9DA /* WorldVision.swift */; };
 		4ADE7B7C23DD006E00641B51 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE7B7B23DD006E00641B51 /* Animation.swift */; };
 		4ADE7B7D23DD006E00641B51 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE7B7B23DD006E00641B51 /* Animation.swift */; };
+		4AE7293823EB6E1B0094F206 /* RayCaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7293723EB6E1B0094F206 /* RayCaster.swift */; };
+		4AE7293923EB6E1B0094F206 /* RayCaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7293723EB6E1B0094F206 /* RayCaster.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +179,7 @@
 		4ACA818323DBFD70005AE9DA /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		4ACA818623DC9C3D005AE9DA /* WorldVision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldVision.swift; sourceTree = "<group>"; };
 		4ADE7B7B23DD006E00641B51 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		4AE7293723EB6E1B0094F206 /* RayCaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayCaster.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +286,7 @@
 				4ACA817D23DBD2FF005AE9DA /* Monster.swift */,
 				01D09AFA22A485040052745A /* Player.swift */,
 				01D09B0422A5C9DB0052745A /* Ray.swift */,
+				4AE7293723EB6E1B0094F206 /* RayCaster.swift */,
 				01D09AFC22A4873B0052745A /* Rect.swift */,
 				01ADC63B22B957FD00DC8AAD /* Renderer.swift */,
 				01D09B0622A6E09A0052745A /* Rotation.swift */,
@@ -615,6 +619,7 @@
 				01D09B0722A6E09B0052745A /* Rotation.swift in Sources */,
 				01D09AFB22A485040052745A /* Player.swift in Sources */,
 				01ADC64022B9846B00DC8AAD /* World.swift in Sources */,
+				4AE7293823EB6E1B0094F206 /* RayCaster.swift in Sources */,
 				4AC6F2A623DF5F8F007BFEAA /* Easing.swift in Sources */,
 				4ACA817E23DBD2FF005AE9DA /* Monster.swift in Sources */,
 				4ADE7B7C23DD006E00641B51 /* Animation.swift in Sources */,
@@ -659,6 +664,7 @@
 				4ACA815A23DBB025005AE9DA /* Textures.swift in Sources */,
 				4ACA815E23DBB032005AE9DA /* Vector.swift in Sources */,
 				4ACA815223DBB00E005AE9DA /* Bitmap.swift in Sources */,
+				4AE7293923EB6E1B0094F206 /* RayCaster.swift in Sources */,
 				4AC6F2A723DF5F8F007BFEAA /* Easing.swift in Sources */,
 				4ACA817F23DBD2FF005AE9DA /* Monster.swift in Sources */,
 				4ADE7B7D23DD006E00641B51 /* Animation.swift in Sources */,
