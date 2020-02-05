@@ -139,6 +139,8 @@ struct RayCaster: Sequence {
     func rayDirection(x:Int)->Vector{
         return viewStart + (Double(x) * step) - origin
     }
+    
+ 
 }
 
 struct RayCasterIterator: IteratorProtocol {
@@ -151,7 +153,8 @@ struct RayCasterIterator: IteratorProtocol {
     }
     
     func rayFor(position:Vector)-> Ray {
-        let rayDirection = caster.rayDirection(x: counter)
+       // let rayDirection = caster.rayDirection(x: counter)
+        let rayDirection = position - caster.origin
         let viewPlaneDistance = rayDirection.length
         
         let ray = Ray(
@@ -160,6 +163,8 @@ struct RayCasterIterator: IteratorProtocol {
         )
         return ray
     }
+    
+   
     
     mutating func next() -> Ray? {
         
