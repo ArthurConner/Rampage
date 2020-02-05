@@ -106,7 +106,6 @@ struct SightLineIterator: IteratorProtocol {
         }
         
         return position
-        
     }
 }
 
@@ -115,23 +114,21 @@ struct RayCaster: Sequence {
     let focalLength, viewWidth:Double
     let viewPlane, viewCenter,origin:Vector
     let columns:Int
+    let step:Vector
     
     var viewStart:Vector{
         viewCenter - viewPlane / 2
     }
-    
-    var rayDirection:Vector{
-        origin
-    } //= columnPosition - world.player.position
-    
+
     init(focalLength:Double,viewWidth:Double, direction:Vector, origin:Vector,columns:Int) {
         self.focalLength = focalLength
         self.viewWidth = viewWidth
-        self.viewPlane = direction.orthogonal * viewWidth
+        let vp = direction.orthogonal * viewWidth
+        self.viewPlane = vp
         self.viewCenter = origin + direction * focalLength
         self.origin = origin
-
         self.columns = columns
+        step = vp / Double(columns)
         
     }
     
@@ -139,47 +136,46 @@ struct RayCaster: Sequence {
         return RayCasterIterator(self)
     }
     
+    func rayDirection(x:Int)->Vector{
+        return viewStart + (Double(x) * step) - origin
+    }
 }
 
 struct RayCasterIterator: IteratorProtocol {
     let caster:RayCaster
     var columnPosition:Vector?
-    var counter = 0
-    let step:Vector
-    
+    var counter = -1
+
     init(_ r: RayCaster) {
         self.caster = r
-        step = r.viewPlane / Double(r.columns)
     }
     
-    func rayFor(position:Vector)->(Int,Vector, Ray){
-        let rayDirection = position - caster.origin
-        
+    func rayFor(position:Vector)-> Ray {
+        let rayDirection = caster.rayDirection(x: counter)
         let viewPlaneDistance = rayDirection.length
+        
         let ray = Ray(
             origin: caster.origin,
             direction: rayDirection / viewPlaneDistance
         )
- 
-        return (counter, rayDirection, ray)
-        
+        return ray
     }
     
-    mutating func next() -> (Int,Vector, Ray)? {
+    mutating func next() -> Ray? {
         
         counter += 1
+        
+        guard counter < caster.columns else {
+            return nil
+        }
         
         guard let cp = columnPosition else {
             columnPosition = caster.viewStart
             return rayFor(position: columnPosition!)
         }
         
-        guard counter < caster.columns else {
-            return nil
-        }
-        columnPosition = cp + step
+        columnPosition = cp + caster.step
         return rayFor(position: columnPosition!)
-        
         
     }
 }
@@ -195,6 +191,7 @@ public struct WorldVision {
 }
 
 extension WorldVision {
+    
     var height: Int {
         return tiles.count / width
     }
@@ -211,6 +208,7 @@ extension WorldVision {
             effect.time = duration
             return effect
         }
+        
         let timeSinceSeen = -val.timeIntervalSinceNow
         if timeSinceSeen < delay {
             return nil
@@ -225,12 +223,10 @@ extension WorldVision {
         
     }
     
-    
     init(height:Int,width w:Int){
         tiles = Array.init(repeating: nil, count: Int(height*w))
         width = w
     }
-    
     
     private mutating func markSeen(_ ray: Ray,world:World) {
         let now = Date()
@@ -247,35 +243,6 @@ extension WorldVision {
     }
     
     
-    /*
-    mutating func update(_ world: World){
-        
-        let focalLength = 1.0
-        let viewWidth = 1.0
-        let viewPlane = world.player.direction.orthogonal * viewWidth
-        let viewCenter = world.player.position + world.player.direction * focalLength
-        let viewStart = viewCenter - viewPlane / 2
-        
-        // Cast rays
-        let columns = 10
-        let step = viewPlane / Double(columns)
-        var columnPosition = viewStart
-        for _ in 0 ..< columns {
-            let rayDirection = columnPosition - world.player.position
-            
-            let viewPlaneDistance = rayDirection.length
-            let ray = Ray(
-                origin: world.player.position,
-                direction: rayDirection / viewPlaneDistance
-            )
-            
-            self.markSeen(ray, world:world)
-            columnPosition += step
-        }
-        
-    }
- */
-    
     mutating func update(_ world: World){
         
         let caster = RayCaster(focalLength: 1.0,
@@ -284,10 +251,9 @@ extension WorldVision {
                                origin: world.player.position,
                                columns: 10)
         
-        for (_,_,ray) in caster {
+        for ray in caster {
              self.markSeen(ray, world:world)
         }
-        
         
     }
     

@@ -84,7 +84,7 @@ public extension Renderer {
         
         bitmap.drawLine(from: caster.viewStart * scale, to: (caster.viewStart + caster.viewPlane) * scale, color: .red)
         
-        for (_, _ , ray) in caster {
+        for ray in caster {
             var end = world.map.hitTest(ray)
             for sprite in world.sprites {
                 guard let hit = sprite.hitTest(ray) else {
@@ -145,8 +145,8 @@ public extension Renderer {
                                origin: world.player.position,
                                columns: bitmap.width)
         
-        for (x,rayDirection,ray) in caster {
-            
+        for (x, ray) in caster.enumerated() {
+            let rayDirection = caster.rayDirection(x: x)
             let viewPlaneDistance = rayDirection.length
             let end = world.map.hitTest(ray)
             let wallDistance = (end - ray.origin).length
