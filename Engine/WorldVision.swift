@@ -104,9 +104,9 @@ public struct WorldVision {
     private var tiles: [Date?]
     
     public let width: Int
-    private let duration = 15.0
+    private let duration = 5.0
     private let delay = 2.0
-    private let completionPercentage = 0.4
+    private let completionPercentage = 0.7
 }
 
 extension WorldVision {

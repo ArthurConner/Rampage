@@ -50,6 +50,7 @@ public extension Renderer {
     
     mutating func draw2D(_ world: World) {
         let scale = Double(bitmap.height) / world.size.y
+          let flashlight = Color(r: 252, g: 252, b: 222)
         
         func drawRect(centered pos:Vector,texture:Texture){
             let radius = Vector(x:0.5,y:0.5)
@@ -89,12 +90,12 @@ public extension Renderer {
                                viewWidth: 1.0,
                                direction: world.player.direction,
                                origin: world.player.position,
-                               columns: 10)
+                               columns: 15)
         
-        bitmap.drawLine(from: caster.viewStart * scale, to: (caster.viewStart + caster.viewPlane) * scale, color: .red)
+    //    bitmap.drawLine(from: caster.viewStart * scale, to: (caster.viewStart + caster.viewPlane) * scale, color: .red)
         
         for ray in caster {
-            var end = world.map.hitTest(ray)
+            var end = world.hitTest(ray)
             for sprite in world.sprites {
                 guard let hit = sprite.hitTest(ray) else {
                     continue
@@ -106,7 +107,7 @@ public extension Renderer {
                 end = hit
             }
             
-            bitmap.drawLine(from: ray.origin * scale, to: end * scale, color: .green)
+            bitmap.drawLine(from: ray.origin * scale, to: end * scale, color: flashlight)
         }
         
         for monster in world.monsters {
@@ -118,19 +119,19 @@ public extension Renderer {
             )
         }
         
-        /*
-         for y in 0 ..< world.map.height {
-         for x in 0 ..< world.map.width {
-         if let c = world.seen[x, y]{
-         let rect = Rect(
-         min: Vector(x: Double(x), y: Double(y)) * scale,
-         max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
-         )
-         bitmap.fillBlend(rect: rect, color: c.color, opacity: c.progress)
-         }
-         }
-         }
-         */
+        
+        for y in 0 ..< world.map.height {
+            for x in 0 ..< world.map.width {
+                if let c = world.seen[x, y]{
+                    let rect = Rect(
+                        min: Vector(x: Double(x), y: Double(y)) * scale,
+                        max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
+                    )
+                    bitmap.fillBlend(rect: rect, color: c.color, opacity: c.progress)
+                }
+            }
+        }
+        
         
         // Effects
         applyEffects( world)

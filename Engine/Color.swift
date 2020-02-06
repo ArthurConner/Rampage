@@ -25,6 +25,8 @@ public extension Color {
     static let red = Color(r: 255, g: 0, b: 0)
     static let green = Color(r: 0, g: 255, b: 0)
     static let blue = Color(r: 0, g: 0, b: 255)
+   
+    
     
     var isOpaque: Bool {
         return a == 255
