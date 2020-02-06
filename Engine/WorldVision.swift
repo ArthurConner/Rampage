@@ -28,21 +28,6 @@ fileprivate struct SightLine: Sequence {
         return SightLineIterator(self)
     }
     
-    func nearestInts(of position:Vector) -> (Int,Int) {
-        var offsetX = 0, offsetY = 0
-        if position.x.rounded(.down) == position.x {
-            offsetX = ray.direction.x > 0 ? 0 : -1
-        }
-        if position.y.rounded(.down) == position.y {
-            offsetY = ray.direction.y > 0 ? 0 : -1
-        }
-        
-        let x = Int(position.x) + offsetX
-        let y = Int(position.y) + offsetY
-        
-        return (x,y)
-    }
-    
     func nextPostion(pos:Vector)->Vector{
         
         var position = pos
@@ -167,7 +152,7 @@ extension WorldVision {
         let line = SightLine(ray: ray, map: world)
         
         for point in line {
-            let (x,y) = line.nearestInts(of: point)
+            let (x,y) = world.map.tileCoords(at: point, from: ray.direction) //line.nearestInts(of: point)
             tiles[y * width + x] = (now, world.map[x,y].isWall)
         }
         

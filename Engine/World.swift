@@ -12,7 +12,7 @@ public struct World {
     public private(set) var monsters: [Monster]
     public private(set) var player: Player!
     public private(set) var effects: [Effect]
-   public private(set) var doors: [Door]
+    public private(set) var doors: [Door]
     
     public init(map: Tilemap) {
         self.map = map
@@ -27,7 +27,7 @@ public extension World {
     var size: Vector {
         return map.size
     }
-
+    
     mutating func update(timeStep: Double, input: Input) {
         // Update effects
         effects = effects.compactMap { effect in
@@ -38,7 +38,7 @@ public extension World {
             effect.time += timeStep
             return effect
         }
-
+        
         // Update player
         if player.isDead == false {
             var player = self.player!
@@ -53,7 +53,7 @@ public extension World {
         }
         
         seen.update(self)
-
+        
         // Update monsters
         for i in 0 ..< monsters.count {
             var monster = monsters[i]
@@ -84,21 +84,18 @@ public extension World {
                     monsters[j].position += intersection / 2
                 }
             }
-           while let intersection = monster.intersection(with: self) {
-                monster.position -= intersection
-            }
+            monster.avoidWalls(in: self)
+            
             monsters[i] = monster
         }
-     while let intersection = player.intersection(with: self) {
-            player.position -= intersection
-        }
+        player.avoidWalls(in: self)
     }
-
+    
     var sprites: [Billboard] {
         let ray = Ray(origin: player.position, direction: player.direction)
         return monsters.map { $0.billboard(for: ray) } + doors.map { $0.billboard }
     }
-
+    
     mutating func hurtPlayer(_ damage: Double) {
         if player.isDead {
             return
@@ -111,7 +108,7 @@ public extension World {
             effects.append(Effect(type: .fizzleOut, color: .red, duration: 2))
         }
     }
-
+    
     mutating func hurtMonster(at index: Int, damage: Double) {
         var monster = monsters[index]
         if monster.isDead {
@@ -128,7 +125,7 @@ public extension World {
         }
         monsters[index] = monster
     }
-
+    
     mutating func reset() {
         self.monsters = []
         self.doors = []
@@ -152,10 +149,10 @@ public extension World {
             }
         }
         self.seen = WorldVision(height: map.height, width: map.width)
-
+        
     }
-
-   func pickMonster(_ ray: Ray) -> Int? {
+    
+    func pickMonster(_ ray: Ray) -> Int? {
         let wallHit = hitTest(ray)
         var distance = (wallHit - ray.origin).length
         var result: Int? = nil
@@ -191,4 +188,10 @@ public extension World {
         
         return wallHit
     }
+    
+    func isDoor(at x: Int, _ y: Int) -> Bool {
+        return map.things[y * map.width + x] == .door
+    }
+    
+    
 }

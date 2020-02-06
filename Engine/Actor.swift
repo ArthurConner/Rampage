@@ -63,4 +63,11 @@ public extension Actor {
     var isDead: Bool {
         return health <= 0
     }
+    mutating func avoidWalls(in world: World) {
+        var attempts = 10
+        while attempts > 0, let intersection = intersection(with: world) {
+            position -= intersection
+            attempts -= 1
+        }
+    }
 }

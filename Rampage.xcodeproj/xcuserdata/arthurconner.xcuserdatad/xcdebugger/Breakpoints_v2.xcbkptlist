@@ -238,8 +238,8 @@
             filePath = "Engine/WorldVision.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "update(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,10 +254,10 @@
             filePath = "Engine/WorldVision.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "SightLine"
-            landmarkType = "14">
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "hitSomething(currentLocation:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
