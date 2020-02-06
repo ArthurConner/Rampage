@@ -11,7 +11,7 @@ import Foundation
 public protocol Actor {
     var radius: Double { get }
     var position: Vector { get set }
-     var health: Double { get set }
+    var health: Double { get set }
 }
 
 
@@ -20,7 +20,7 @@ public extension Actor {
         let halfSize = Vector(x: radius, y: radius)
         return Rect(min: position - halfSize, max: position + halfSize)
     }
-
+    
     func intersection(with map: Tilemap) -> Vector? {
         let minX = Int(rect.min.x), maxX = Int(rect.max.x)
         let minY = Int(rect.min.y), maxY = Int(rect.max.y)
@@ -39,17 +39,27 @@ public extension Actor {
         }
         return largestIntersection
     }
-
+    
     func intersection(with door: Door) -> Vector? {
         return rect.intersection(with: door.rect)
     }
-
+    
+    func intersection(with pushwall: Pushwall) -> Vector? {
+        return rect.intersection(with: pushwall.rect)
+    }
+    
     func intersection(with world: World) -> Vector? {
         if let intersection = intersection(with: world.map) {
             return intersection
         }
         for door in world.doors {
             if let intersection = intersection(with: door) {
+                return intersection
+            }
+        }
+        
+        for pushwall in world.pushwalls where pushwall.position != position {
+            if let intersection = intersection(with: pushwall) {
                 return intersection
             }
         }
@@ -63,6 +73,24 @@ public extension Actor {
     var isDead: Bool {
         return health <= 0
     }
+    
+    func isStuck(in world: World) -> Bool {
+        // If outside map
+        if position.x < 1 || position.x > world.map.size.x - 1 ||
+            position.y < 1 || position.y > world.map.size.y - 1 {
+            return true
+        }
+        // If stuck in a wall
+        if world.map[Int(position.x), Int(position.y)].isWall {
+            return true
+        }
+        // If stuck in a pushwall
+        return world.pushwalls.contains(where: {
+            abs(position.x - $0.position.x) < 0.6 && abs(position.y - $0.position.y) < 0.6
+        })
+    }
+    
+    
     mutating func avoidWalls(in world: World) {
         var attempts = 10
         while attempts > 0, let intersection = intersection(with: world) {

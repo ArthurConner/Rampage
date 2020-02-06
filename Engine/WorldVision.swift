@@ -101,12 +101,12 @@ fileprivate struct SightLineIterator: IteratorProtocol {
 }
 
 public struct WorldVision {
-    private var tiles: [(Date,Bool)?]
+    private var tiles: [Date?]
     
     public let width: Int
     private let duration = 15.0
     private let delay = 2.0
-    private let completionPercentage = 0.8
+    private let completionPercentage = 0.4
 }
 
 extension WorldVision {
@@ -116,14 +116,14 @@ extension WorldVision {
     }
     
     
-    private func lookup(x: Int, y: Int) -> (Date,Bool)? {
+    private func lookup(x: Int, y: Int) -> Date? {
         return tiles[y * width + x]
     }
     
     subscript(x: Int, y: Int) -> Effect?{
         var effect = Effect(type: .fadeOut, color: .gray, duration: duration)
         
-        guard let (val,isWall) = lookup(x: x,y: y) else {
+        guard let val = lookup(x: x,y: y) else {
             effect.time = duration
             return effect
         }
@@ -133,9 +133,7 @@ extension WorldVision {
             return nil
         }
         
-        if isWall {
-            return nil
-        }
+     
         
         effect.time = min((timeSinceSeen - delay),duration * completionPercentage)
         return effect
@@ -153,7 +151,7 @@ extension WorldVision {
         
         for point in line {
             let (x,y) = world.map.tileCoords(at: point, from: ray.direction) //line.nearestInts(of: point)
-            tiles[y * width + x] = (now, world.map[x,y].isWall)
+            tiles[y * width + x] = now
         }
         
     }

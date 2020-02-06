@@ -46,46 +46,34 @@ public extension Renderer {
         }
     }
     
+    
+    
     mutating func draw2D(_ world: World) {
         let scale = Double(bitmap.height) / world.size.y
         
-        for door in world.doors {
-            
-            let bill = door.billboard
-
+        func drawRect(centered pos:Vector,texture:Texture){
             let radius = Vector(x:0.5,y:0.5)
+            let rect = Rect(min: (pos - radius)*scale , max: (pos + radius)*scale)
             
-           let position = door.position + door.direction * (door.offset )
-
-            let rect = Rect(min: (position - radius)*scale , max: (position + radius)*scale)
-            
-            
-            let s = rect.size
-            if s.y > 1 {
-                bitmap.drawImage(
-                    textures[bill.texture],
-                    at:rect.min,
-                    size:rect.size
-                )
-            } else {
-                print("bad rect")
-            }
+            bitmap.drawImage(
+                textures[texture],
+                at:rect.min,
+                size:rect.size
+            )
         }
         
-        // Draw map
+        for door in world.doors {
+            let position = door.position + door.direction * (door.offset )
+            drawRect(centered:position, texture: door.billboard.texture)
+        }
+        
+        for pushWall in world.pushwalls {
+            drawRect(centered: pushWall.position, texture:pushWall.billboards(facing: Vector(x: 0, y: 0))[0].texture)
+        }
+        
         for y in 0 ..< world.map.height {
             for x in 0 ..< world.map.width where world.map[x, y].isWall {
-                let rect = Rect(
-                    min: Vector(x: Double(x), y: Double(y)) * scale,
-                    max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
-                )
-                // bitmap.fill(rect: rect, color: .red)
-                let tile = world.map[x,y]
-                bitmap.drawImage(
-                    textures[tile.textures[0]],
-                    at:rect.min,
-                    size:rect.size
-                )
+                drawRect(centered:Vector(x: Double(x)+0.5, y: Double(y)+0.5), texture: world.map[x,y].textures[0])
             }
         }
         
@@ -94,8 +82,6 @@ public extension Renderer {
         var rect = world.player.rect
         rect.min *= scale
         rect.max *= scale
-        
-        //rect = Rect(min: Vector(x: rect.min.y, y: rect.min.x), max: Vector(x: rect.max.y,y: rect.max.x))
         bitmap.fill(rect: rect, color: .blue)
         
         // Draw view plane
@@ -132,20 +118,19 @@ public extension Renderer {
             )
         }
         
-        
-        
-        
-        for y in 0 ..< world.map.height {
-            for x in 0 ..< world.map.width {
-                if let c = world.seen[x, y]{
-                    let rect = Rect(
-                        min: Vector(x: Double(x), y: Double(y)) * scale,
-                        max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
-                    )
-                    bitmap.fillBlend(rect: rect, color: c.color, opacity: c.progress)
-                }
-            }
-        }
+        /*
+         for y in 0 ..< world.map.height {
+         for x in 0 ..< world.map.width {
+         if let c = world.seen[x, y]{
+         let rect = Rect(
+         min: Vector(x: Double(x), y: Double(y)) * scale,
+         max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
+         )
+         bitmap.fillBlend(rect: rect, color: c.color, opacity: c.progress)
+         }
+         }
+         }
+         */
         
         // Effects
         applyEffects( world)
@@ -155,15 +140,6 @@ public extension Renderer {
     
     mutating func draw(_ world: World) {
         
-        // Sort sprites by distance
-        var spritesByDistance: [(distance: Double, sprite: Billboard)] = []
-        for sprite in world.sprites {
-            let spriteDistance = (sprite.start - world.player.position).length
-            spritesByDistance.append(
-                (distance: spriteDistance, sprite: sprite)
-            )
-        }
-        spritesByDistance.sort(by: { $0.distance > $1.distance })
         
         let caster = RayCaster(focalLength: 1.0,
                                viewWidth: Double(bitmap.width) / Double(bitmap.height),
@@ -187,7 +163,7 @@ public extension Renderer {
             let tile = world.map[tileX, tileY]
             
             if end.x.rounded(.down) == end.x {
-               let neighborX = tileX + (ray.direction.x > 0 ? -1 : 1)
+                let neighborX = tileX + (ray.direction.x > 0 ? -1 : 1)
                 let isDoor = world.isDoor(at: neighborX, tileY)
                 wallTexture = textures[isDoor ? .doorjamb : tile.textures[0]]
                 wallX = end.y - end.y.rounded(.down)
@@ -222,12 +198,23 @@ public extension Renderer {
                 bitmap[x, bitmap.height - y] = ceilingTexture[normalized: textureX, textureY]
             }
             
-            // Draw sprites
-            for (_, sprite) in spritesByDistance {
+            // Sort sprites by distance
+            var spritesByDistance: [(hit: Vector, distance: Double, sprite: Billboard)] = []
+            for sprite in world.sprites {
                 guard let hit = sprite.hitTest(ray) else {
                     continue
                 }
                 let spriteDistance = (hit - ray.origin).length
+                if spriteDistance > wallDistance {
+                    continue
+                }
+                spritesByDistance.append(
+                    (hit: hit, distance: spriteDistance, sprite: sprite)
+                )
+            }
+            
+            // Draw sprites
+            for (hit, spriteDistance, sprite) in spritesByDistance {
                 if spriteDistance > wallDistance {
                     continue
                 }
