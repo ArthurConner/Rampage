@@ -10,16 +10,17 @@ import Foundation
 
 
 
-struct SightLine: Sequence {
+fileprivate struct SightLine: Sequence {
     let ray:Ray
     let world:World
-    let halt:(World,SightLine,Vector)->Bool
+    let distanceToHit:Double
     
-    
-    init(ray r:Ray,map w:World, halt h:@escaping (World,SightLine,Vector)->Bool = SightLine.hitWall) {
+    init(ray r:Ray,map w:World){
         ray = r
         world = w
-        halt = h
+        
+        let whereWeHit = w.hitTest(r)
+        distanceToHit = (r.origin - whereWeHit).length
         
     }
     
@@ -42,16 +43,9 @@ struct SightLine: Sequence {
         return (x,y)
     }
     
-    static func hitWall (world:World,line:SightLine, pos:Vector)->Bool {
-        let (x,y) = line.nearestInts(of: pos)
-        return world.map[x,y].isWall
-    }
-    
-     func nextPostion(pos:Vector)->Vector{
-       
+    func nextPostion(pos:Vector)->Vector{
         
         var position = pos
-    
         
         let edgeDistanceX, edgeDistanceY: Double
         if ray.direction.x > 0 {
@@ -74,22 +68,14 @@ struct SightLine: Sequence {
             position += step2
         }
         
-      
+        
         return position
     }
     
-    static func hitSomething (world:World,line:SightLine, pos:Vector)->Bool {
-        //let (x,y) = line.nearestInts(of: pos)
-        //return map[x,y].isWall
-       
-        
-        let worldR = world.hitTest(line.ray)
-        let maxD = (line.ray.origin - worldR).length
-        
-        let cur = (line.ray.origin - line.nextPostion(pos: pos)).length
-        
-        //print(cur,maxD)
-        return cur > maxD
+    
+    func hitSomething (currentLocation:Vector)->Bool {
+        let distanceTravelled = (self.ray.origin - currentLocation).length
+        return distanceTravelled > distanceToHit
     }
     
     
@@ -103,10 +89,10 @@ struct SightLine: Sequence {
     
 }
 
-struct SightLineIterator: IteratorProtocol {
+fileprivate struct SightLineIterator: IteratorProtocol {
     let sight: SightLine
     var position:Vector?
-    var isLast:Bool =  false
+    
     
     init(_ sight: SightLine) {
         self.sight = sight
@@ -114,42 +100,15 @@ struct SightLineIterator: IteratorProtocol {
     
     mutating func next() -> Vector? {
         
-        guard !self.isLast else {
-            return nil
-        }
-        
-        guard var position = position else {
+        guard let position = position else {
             self.position =  sight.ray.origin
             return self.position
         }
         
-        let ray = sight.ray
+        self.position = sight.nextPostion(pos: position)
         
-        let edgeDistanceX, edgeDistanceY: Double
-        if sight.ray.direction.x > 0 {
-            edgeDistanceX = position.x.rounded(.down) + 1 - position.x
-        } else {
-            edgeDistanceX = position.x.rounded(.up) - 1 - position.x
-        }
-        if ray.direction.y > 0 {
-            edgeDistanceY = position.y.rounded(.down) + 1 - position.y
-        } else {
-            edgeDistanceY = position.y.rounded(.up) - 1 - position.y
-        }
-        
-        let slope = ray.direction.x / ray.direction.y
-        let step1 = Vector(x: edgeDistanceX, y: edgeDistanceX / slope)
-        let step2 = Vector(x: edgeDistanceY * slope, y: edgeDistanceY)
-        if step1.length < step2.length {
-            position += step1
-        } else {
-            position += step2
-        }
-        
-        self.position = position
-        
-        if (sight.halt(sight.world,sight,position)){
-            isLast = true
+        if sight.hitSomething(currentLocation: position){
+            return nil
         }
         
         return position
@@ -205,16 +164,13 @@ extension WorldVision {
     
     private mutating func markSeen(_ ray: Ray,world:World) {
         let now = Date()
+        let line = SightLine(ray: ray, map: world)
         
-        let line = SightLine(ray: ray, map: world, halt: SightLine.hitSomething)
-
         for point in line {
             let (x,y) = line.nearestInts(of: point)
             tiles[y * width + x] = (now, world.map[x,y].isWall)
         }
         
-
-
     }
     
     
@@ -227,7 +183,7 @@ extension WorldVision {
                                columns: 10)
         
         for ray in caster {
-             self.markSeen(ray, world:world)
+            self.markSeen(ray, world:world)
         }
         
     }
