@@ -62,7 +62,15 @@ public extension World {
             monster.position += monster.velocity * timeStep
             monsters[i] = monster
         }
-
+        
+        // Update doors
+        for i in 0 ..< doors.count {
+            var door = doors[i]
+            door.time += timeStep
+            door.update(in: &self)
+            doors[i] = door
+        }
+        
         // Handle collisions
         for i in 0 ..< monsters.count {
             var monster = monsters[i]

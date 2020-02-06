@@ -49,6 +49,29 @@ public extension Renderer {
     mutating func draw2D(_ world: World) {
         let scale = Double(bitmap.height) / world.size.y
         
+        for door in world.doors {
+            
+            let bill = door.billboard
+
+            let radius = Vector(x:0.5,y:0.5)
+            
+           let position = door.position + door.direction * (door.offset )
+
+            let rect = Rect(min: (position - radius)*scale , max: (position + radius)*scale)
+            
+            
+            let s = rect.size
+            if s.y > 1 {
+                bitmap.drawImage(
+                    textures[bill.texture],
+                    at:rect.min,
+                    size:rect.size
+                )
+            } else {
+                print("bad rect")
+            }
+        }
+        
         // Draw map
         for y in 0 ..< world.map.height {
             for x in 0 ..< world.map.width where world.map[x, y].isWall {
@@ -108,29 +131,9 @@ public extension Renderer {
                 size:rect.size
             )
         }
-
-        for door in world.doors {
-            
-            let bill = door.billboard
-            
-            //let rect = Rect(min: bill.start * scale, max: bill.end * scale)
-            let radius = Vector(x:0.5,y:0.5)
-            
-            let rect = Rect(min: (door.position - radius)*scale , max: (door.position + radius)*scale)
-            
-         
-            let s = rect.size
-            if s.y > 1 {
-            bitmap.drawImage(
-                textures[bill.texture],
-                at:rect.min,
-                size:rect.size
-            )
-            } else {
-               print("bad rect")
-            }
-        }
-
+        
+        
+        
         
         for y in 0 ..< world.map.height {
             for x in 0 ..< world.map.width {
