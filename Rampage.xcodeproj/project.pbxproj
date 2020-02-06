@@ -30,6 +30,8 @@
 		01D09B0522A5C9DB0052745A /* Ray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09B0422A5C9DB0052745A /* Ray.swift */; };
 		01D09B0722A6E09B0052745A /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09B0622A6E09A0052745A /* Rotation.swift */; };
 		01D09B0B22A7F7570052745A /* Textures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09B0A22A7F7570052745A /* Textures.swift */; };
+		4A546A0823EB7CBD00696441 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A546A0723EB7CBD00696441 /* Door.swift */; };
+		4A546A0923EB7CBD00696441 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A546A0723EB7CBD00696441 /* Door.swift */; };
 		4A78500223E8E69F00E9317C /* RampageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A78500123E8E69F00E9317C /* RampageTests.swift */; };
 		4AC6F2A323DF49A6007BFEAA /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A223DF49A6007BFEAA /* Effect.swift */; };
 		4AC6F2A423DF49A6007BFEAA /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A223DF49A6007BFEAA /* Effect.swift */; };
@@ -155,6 +157,7 @@
 		01D09B0422A5C9DB0052745A /* Ray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
 		01D09B0622A6E09A0052745A /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 		01D09B0A22A7F7570052745A /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
+		4A546A0723EB7CBD00696441 /* Door.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Door.swift; sourceTree = "<group>"; };
 		4A784FFF23E8E69F00E9317C /* RampageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RampageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A78500123E8E69F00E9317C /* RampageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RampageTests.swift; sourceTree = "<group>"; };
 		4A78500323E8E69F00E9317C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -280,6 +283,7 @@
 				4ACA818023DBD778005AE9DA /* Billboard.swift */,
 				01D09AF222A482030052745A /* Bitmap.swift */,
 				01D09AF022A481AB0052745A /* Color.swift */,
+				4A546A0723EB7CBD00696441 /* Door.swift */,
 				4AC6F2A523DF5F8F007BFEAA /* Easing.swift */,
 				4AC6F2A223DF49A6007BFEAA /* Effect.swift */,
 				01D09B0222A4958E0052745A /* Input.swift */,
@@ -619,6 +623,7 @@
 				01D09B0722A6E09B0052745A /* Rotation.swift in Sources */,
 				01D09AFB22A485040052745A /* Player.swift in Sources */,
 				01ADC64022B9846B00DC8AAD /* World.swift in Sources */,
+				4A546A0823EB7CBD00696441 /* Door.swift in Sources */,
 				4AE7293823EB6E1B0094F206 /* RayCaster.swift in Sources */,
 				4AC6F2A623DF5F8F007BFEAA /* Easing.swift in Sources */,
 				4ACA817E23DBD2FF005AE9DA /* Monster.swift in Sources */,
@@ -664,6 +669,7 @@
 				4ACA815A23DBB025005AE9DA /* Textures.swift in Sources */,
 				4ACA815E23DBB032005AE9DA /* Vector.swift in Sources */,
 				4ACA815223DBB00E005AE9DA /* Bitmap.swift in Sources */,
+				4A546A0923EB7CBD00696441 /* Door.swift in Sources */,
 				4AE7293923EB6E1B0094F206 /* RayCaster.swift in Sources */,
 				4AC6F2A723DF5F8F007BFEAA /* Easing.swift in Sources */,
 				4ACA817F23DBD2FF005AE9DA /* Monster.swift in Sources */,

@@ -100,7 +100,7 @@ public extension Renderer {
             bitmap.drawLine(from: ray.origin * scale, to: end * scale, color: .green)
         }
         
-        for monster in world.monsters{
+        for monster in world.monsters {
             let rect = Rect(min: monster.rect.min * scale, max: monster.rect.max * scale)
             bitmap.drawImage(
                 textures[monster.animation.texture],
@@ -108,6 +108,29 @@ public extension Renderer {
                 size:rect.size
             )
         }
+
+        for door in world.doors {
+            
+            let bill = door.billboard
+            
+            //let rect = Rect(min: bill.start * scale, max: bill.end * scale)
+            let radius = Vector(x:0.5,y:0.5)
+            
+            let rect = Rect(min: (door.position - radius)*scale , max: (door.position + radius)*scale)
+            
+         
+            let s = rect.size
+            if s.y > 1 {
+            bitmap.drawImage(
+                textures[bill.texture],
+                at:rect.min,
+                size:rect.size
+            )
+            } else {
+               print("bad rect")
+            }
+        }
+
         
         for y in 0 ..< world.map.height {
             for x in 0 ..< world.map.width {
