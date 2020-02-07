@@ -82,12 +82,14 @@ public extension Bitmap {
         let aStep = -alpha / Double(stepCount)
         
         for _ in 0 ..< stepCount {
+            
+            let alph = Easing.easeInEaseOut(alpha)
             let index = Int(point.x) * height + Int(point.y)
             let bcolor = Color(
-                     r: UInt8(Double(color.r) * alpha),
-                     g: UInt8(Double(color.g) * alpha),
-                     b: UInt8(Double(color.b) * alpha),
-                     a: UInt8(255 * alpha)
+                     r: UInt8(Double(color.r) * alph),
+                     g: UInt8(Double(color.g) * alph),
+                     b: UInt8(Double(color.b) * alph),
+                     a: UInt8(255 * alph)
                  )
             blendPixel(at: index, with: bcolor)
 

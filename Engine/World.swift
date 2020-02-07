@@ -14,6 +14,9 @@ public struct World {
     public private(set) var effects: [Effect]
     public private(set) var doors: [Door]
     public private(set) var pushwalls: [Pushwall]
+    public private(set) var switches: [Switch]
+    public private(set) var isLevelEnded: Bool
+    public var isRevealed: Bool
     
     public init(map: Tilemap) {
         self.map = map
@@ -22,7 +25,9 @@ public struct World {
         self.doors = []
         self.pushwalls = []
         self.seen = WorldVision(height: map.height, width: map.width)
-        
+        self.switches = []
+        self.isLevelEnded = false
+        self.isRevealed = false
         reset()
     }
 }
@@ -32,7 +37,12 @@ public extension World {
         return map.size
     }
     
+    //seen.update(self)
     mutating func update(timeStep: Double, input: Input) {
+        
+        
+        
+        
         // Update effects
         effects = effects.compactMap { effect in
             guard effect.time < effect.duration else {
@@ -42,6 +52,17 @@ public extension World {
             effect.time += timeStep
             return effect
         }
+        
+        // Check for level end
+        if isLevelEnded {
+            if effects.isEmpty {
+                reset()
+                effects.append(Effect(type: .fadeIn, color: .black, duration: 0.5))
+            }
+            return
+        }
+        
+        seen.update(self)
         
         // Update player
         if player.isDead == false {
@@ -73,6 +94,14 @@ public extension World {
             door.time += timeStep
             door.update(in: &self)
             doors[i] = door
+        }
+        
+        // Update switches
+        for i in 0 ..< switches.count {
+            var s = switches[i]
+            s.animation.time += timeStep
+            s.update(in: &self)
+            switches[i] = s
         }
         
         // Update pushwalls
@@ -147,9 +176,16 @@ public extension World {
         monsters[index] = monster
     }
     
+    mutating func endLevel() {
+        isLevelEnded = true
+        effects.append(Effect(type: .fadeOut, color: .black, duration: 2))
+    }
+    
     mutating func reset() {
         self.monsters = []
         self.doors = []
+        self.switches = []
+        self.isLevelEnded = false
         var pushwallCount = 0
         for y in 0 ..< map.height {
             for x in 0 ..< map.width {
@@ -180,11 +216,14 @@ public extension World {
                         tile = map.closestFloorTile(to: x, y) ?? .wall
                     }
                     pushwalls.append(Pushwall(position: position, tile: tile))
+                case .switch:
+                    precondition(map[x, y].isWall, "Switch must be placed on a wall tile")
+                    switches.append(Switch(position: position))
                 }
             }
-            
         }
     }
+    
     
     func pickMonster(_ ray: Ray) -> Int? {
         let wallHit = hitTest(ray)
@@ -229,5 +268,13 @@ public extension World {
         return map.things[y * map.width + x] == .door
     }
     
+    func `switch`(at x: Int, _ y: Int) -> Switch? {
+        guard map.things[y * map.width + x] == .switch else {
+            return nil
+        }
+        return switches.first(where: {
+            Int($0.position.x) == x && Int($0.position.y) == y
+        })
+    }
     
 }

@@ -35,6 +35,8 @@
 		4A546A0B23ECAD0100696441 /* Pushwall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A546A0A23ECAD0100696441 /* Pushwall.swift */; };
 		4A546A0C23ECAD0100696441 /* Pushwall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A546A0A23ECAD0100696441 /* Pushwall.swift */; };
 		4A78500223E8E69F00E9317C /* RampageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A78500123E8E69F00E9317C /* RampageTests.swift */; };
+		4A8A103C23EDF1CC00E8333C /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A103B23EDF1CC00E8333C /* Switch.swift */; };
+		4A8A103D23EDF1CC00E8333C /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A103B23EDF1CC00E8333C /* Switch.swift */; };
 		4AC6F2A323DF49A6007BFEAA /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A223DF49A6007BFEAA /* Effect.swift */; };
 		4AC6F2A423DF49A6007BFEAA /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A223DF49A6007BFEAA /* Effect.swift */; };
 		4AC6F2A623DF5F8F007BFEAA /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6F2A523DF5F8F007BFEAA /* Easing.swift */; };
@@ -164,6 +166,7 @@
 		4A784FFF23E8E69F00E9317C /* RampageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RampageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A78500123E8E69F00E9317C /* RampageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RampageTests.swift; sourceTree = "<group>"; };
 		4A78500323E8E69F00E9317C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A8A103B23EDF1CC00E8333C /* Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switch.swift; sourceTree = "<group>"; };
 		4AC6F2A223DF49A6007BFEAA /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		4AC6F2A523DF5F8F007BFEAA /* Easing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
 		4AC6F2AF23E23FD9007BFEAA /* LambpageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LambpageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -298,6 +301,7 @@
 				01ADC63B22B957FD00DC8AAD /* Renderer.swift */,
 				4A546A0A23ECAD0100696441 /* Pushwall.swift */,
 				01D09B0622A6E09A0052745A /* Rotation.swift */,
+				4A8A103B23EDF1CC00E8333C /* Switch.swift */,
 				01D09B0A22A7F7570052745A /* Textures.swift */,
 				012A0C4C22C96E150068E8EF /* Tile.swift */,
 				01D09AFE22A48E990052745A /* Tilemap.swift */,
@@ -622,6 +626,7 @@
 				012A0C4F22C96E1F0068E8EF /* Thing.swift in Sources */,
 				4ACA818423DBFD70005AE9DA /* Actor.swift in Sources */,
 				4ACA818123DBD778005AE9DA /* Billboard.swift in Sources */,
+				4A8A103C23EDF1CC00E8333C /* Switch.swift in Sources */,
 				4A546A0B23ECAD0100696441 /* Pushwall.swift in Sources */,
 				01D09AF922A484B10052745A /* Vector.swift in Sources */,
 				01D09AF322A482030052745A /* Bitmap.swift in Sources */,
@@ -669,6 +674,7 @@
 				4ACA815D23DBB02E005AE9DA /* Thing.swift in Sources */,
 				4ACA818523DBFD70005AE9DA /* Actor.swift in Sources */,
 				4ACA818223DBD778005AE9DA /* Billboard.swift in Sources */,
+				4A8A103D23EDF1CC00E8333C /* Switch.swift in Sources */,
 				4A546A0C23ECAD0100696441 /* Pushwall.swift in Sources */,
 				4ACA815823DBB020005AE9DA /* Renderer.swift in Sources */,
 				4ACA815423DBB014005AE9DA /* Input.swift in Sources */,

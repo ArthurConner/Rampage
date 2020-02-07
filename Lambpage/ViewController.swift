@@ -30,6 +30,7 @@ enum KeyboardActions : String, CaseIterable {
     case turnLeft = "a"
     case turnRight = "d"
     case toggleMap = "m"
+    case toggleLights = "l"
     case space = " "
     
 }
@@ -145,6 +146,10 @@ class ViewController: NSViewController {
         
         if keyboardRemovals.contains(.toggleMap){
             is3D = !is3D
+        }
+        
+        if keyboardRemovals.contains(.toggleLights){
+            world.isRevealed = !world.isRevealed
         }
         
         if  is3D{

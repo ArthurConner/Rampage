@@ -50,10 +50,11 @@ public extension Renderer {
     
     mutating func draw2D(_ world: World) {
         let scale = Double(bitmap.height) / world.size.y
-          let flashlight = Color(r: 252, g: 252, b: 222)
+        let flashlight = Color(r: 252, g: 252, b: 222)
+        let radius = Vector(x:0.5,y:0.5)
         
         func drawRect(centered pos:Vector,texture:Texture){
-            let radius = Vector(x:0.5,y:0.5)
+            
             let rect = Rect(min: (pos - radius)*scale , max: (pos + radius)*scale)
             
             bitmap.drawImage(
@@ -72,11 +73,25 @@ public extension Renderer {
             drawRect(centered: pushWall.position, texture:pushWall.billboards(facing: Vector(x: 0, y: 0))[0].texture)
         }
         
+        
+        // Draw switch
         for y in 0 ..< world.map.height {
-            for x in 0 ..< world.map.width where world.map[x, y].isWall {
-                drawRect(centered:Vector(x: Double(x)+0.5, y: Double(y)+0.5), texture: world.map[x,y].textures[0])
+            for x in 0 ..< world.map.width{
+                
+                if world.map[x, y].isWall {
+                    let center = Vector(x: Double(x), y: Double(y))+radius
+                    
+                    drawRect(centered:center, texture: world.map[x,y].textures[0])
+                    
+                    if let s = world.switch(at: x, y) {
+                        drawRect(centered:center, texture: s.animation.texture)
+                    }
+                }
             }
         }
+        
+        
+        
         
         
         // Draw player
@@ -92,7 +107,7 @@ public extension Renderer {
                                origin: world.player.position,
                                columns: 15)
         
-    //    bitmap.drawLine(from: caster.viewStart * scale, to: (caster.viewStart + caster.viewPlane) * scale, color: .red)
+        //    bitmap.drawLine(from: caster.viewStart * scale, to: (caster.viewStart + caster.viewPlane) * scale, color: .red)
         
         for ray in caster {
             var end = world.hitTest(ray)
@@ -119,7 +134,7 @@ public extension Renderer {
             )
         }
         
-        
+        if  !world.isRevealed {
         for y in 0 ..< world.map.height {
             for x in 0 ..< world.map.width {
                 if let c = world.seen[x, y]{
@@ -131,7 +146,7 @@ public extension Renderer {
                 }
             }
         }
-        
+        }
         
         // Effects
         applyEffects( world)
@@ -178,6 +193,12 @@ public extension Renderer {
             let wallStart = Vector(x: Double(x), y: (Double(bitmap.height) - height) / 2 + 0.001)
             bitmap.drawColumn(textureX, of: wallTexture, at: wallStart, height: height)
             
+            
+            // Draw switch
+            if let s = world.switch(at: tileX, tileY) {
+                let switchTexture = textures[s.animation.texture]
+                bitmap.drawColumn(textureX, of: switchTexture, at: wallStart, height: height)
+            }
             // Draw floor and ceiling
             var floorTile: Tile!
             var floorTexture, ceilingTexture: Bitmap!
