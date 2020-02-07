@@ -20,8 +20,8 @@ public struct Bitmap {
 }
 
 public extension Bitmap {
-
-
+    
+    
     subscript(x: Int, y: Int) -> Color {
         get { return pixels[x * height + y] }
         set {
@@ -29,20 +29,20 @@ public extension Bitmap {
             pixels[x * height + y] = newValue
         }
     }
-
+    
     subscript(normalized x: Double, y: Double) -> Color {
         return self[Int(x * Double(width)), Int(y * Double(height))]
     }
-
+    
     init(width: Int, height: Int, color: Color) {
         self.pixels = Array(repeating: color, count: width * height)
         self.width = width
         self.height = height
         self.isOpaque = color.isOpaque
     }
-
-
-
+    
+    
+    
     mutating func drawLine(from: Vector, to: Vector, color: Color) {
         let difference = to - from
         let step: Vector
@@ -62,17 +62,50 @@ public extension Bitmap {
             point += step
         }
     }
+    
+    mutating func drawFadeLine(from: Vector, to: Vector, color: Color) {
+        let difference = to - from
+        let step: Vector
+        let stepCount: Int
+        
+        if abs(difference.x) > abs(difference.y) {
+            stepCount = Int(abs(difference.x).rounded(.up))
+            let sign = difference.x > 0 ? 1.0 : -1.0
+            step = Vector(x: 1, y: difference.y / difference.x) * sign
+        } else {
+            stepCount = Int(abs(difference.y).rounded(.up))
+            let sign = difference.y > 0 ? 1.0 : -1.0
+            step = Vector(x: difference.x / difference.y, y: 1) * sign
+        }
+        var point = from
+        var alpha = 1.0
+        let aStep = -alpha / Double(stepCount)
+        
+        for _ in 0 ..< stepCount {
+            let index = Int(point.x) * height + Int(point.y)
+            let bcolor = Color(
+                     r: UInt8(Double(color.r) * alpha),
+                     g: UInt8(Double(color.g) * alpha),
+                     b: UInt8(Double(color.b) * alpha),
+                     a: UInt8(255 * alpha)
+                 )
+            blendPixel(at: index, with: bcolor)
 
+            point += step
+            alpha += aStep
+        }
+    }
+    
     mutating func drawColumn(_ sourceX: Int, of source: Bitmap, at point: Vector, height: Double) {
         let start = Int(point.y), end = Int((point.y + height).rounded(.up))
         let stepY = Double(source.height) / height
-         let offset = Int(point.x) * self.height
+        let offset = Int(point.x) * self.height
         
         if source.isOpaque {
             for y in max(0, start) ..< min(self.height, end) {
-                 let sourceY = (Double(y) - point.y) * stepY
-                 let sourceColor = source[sourceX, Int(sourceY)]
-                 pixels[offset + y] = sourceColor
+                let sourceY = (Double(y) - point.y) * stepY
+                let sourceColor = source[sourceX, Int(sourceY)]
+                pixels[offset + y] = sourceColor
             }
         } else {
             for y in max(0, start) ..< min(self.height, end) {
@@ -85,12 +118,12 @@ public extension Bitmap {
     //y * width + x
     
     mutating func drawImage(_ source: Bitmap, at point: Vector, size: Vector) {
-
+        
         let start = Int(point.x), end = Int(point.x + size.x)
         let stepX = Double(source.width) / size.x
         for x in max(0, start) ..< min(width, end) {
             let sourceX = (Double(x) - point.x) * stepX
-
+            
             let outputPosition = Vector(x: Double(x), y: point.y)
             drawColumn(Int(sourceX), of: source, at: outputPosition, height: size.y)
         }
@@ -130,20 +163,20 @@ public extension Bitmap {
     mutating func fillBlend(rect: Rect, color: Color,opacity: Double) {
         
         let opacity = min(1, max(0, Double(color.a) / 255 * opacity))
-         
-         let color = Color(
-             r: UInt8(opacity * Double(color.r)),
-             g: UInt8(opacity * Double(color.g)),
-             b: UInt8(opacity * Double(color.b)),
-             a: UInt8(opacity * 255)
-         )
         
-          for y in Int(rect.min.y) ..< Int(rect.max.y) {
-              for x in Int(rect.min.x) ..< Int(rect.max.x) {
+        let color = Color(
+            r: UInt8(opacity * Double(color.r)),
+            g: UInt8(opacity * Double(color.g)),
+            b: UInt8(opacity * Double(color.b)),
+            a: UInt8(opacity * 255)
+        )
+        
+        for y in Int(rect.min.y) ..< Int(rect.max.y) {
+            for x in Int(rect.min.x) ..< Int(rect.max.x) {
                 blendPixel(at:x * height + y, with:color)
-              }
-          }
-      }
+            }
+        }
+    }
     
     mutating func fill(rect: Rect, color: Color) {
         for y in Int(rect.min.y) ..< Int(rect.max.y) {
@@ -157,6 +190,6 @@ public extension Bitmap {
 
 
 
- 
+
 
 

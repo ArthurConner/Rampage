@@ -107,7 +107,7 @@ public extension Renderer {
                 end = hit
             }
             
-            bitmap.drawLine(from: ray.origin * scale, to: end * scale, color: flashlight)
+            bitmap.drawFadeLine(from: ray.origin * scale, to: end * scale, color: flashlight)
         }
         
         for monster in world.monsters {

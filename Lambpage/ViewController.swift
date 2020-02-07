@@ -95,11 +95,11 @@ class ViewController: NSViewController {
     func keyD(event:NSEvent)->NSEvent?{
         guard
             let act = KeyboardActions(rawValue: event.characters ?? "") else {
-                return nil
+                return event
         }
         
         keyboardActions.insert(act)
-        return nil
+        return event
     }
     
     override var representedObject: Any? {

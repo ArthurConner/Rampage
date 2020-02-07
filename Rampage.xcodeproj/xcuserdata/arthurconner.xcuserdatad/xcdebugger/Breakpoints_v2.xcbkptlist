@@ -260,5 +260,85 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "391164AA-8021-4CD4-A793-1CC5A52638BC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Engine/Bitmap.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "blendPixel(at:with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A95FD064-4420-4717-BDD5-CD3AD463664D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Engine/Bitmap.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "blendPixel(at:with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A95FD064-4420-4717-BDD5-CD3AD463664D - 5503699ffc98cb13"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EngineX.Bitmap.(blendPixel in _C210FD65CDFAFAC4B7CB1066B8648F68)(at: Swift.Int, with: EngineX.Color) -&gt; ()"
+                  moduleName = "EngineX"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/arthurconner/code/Rampage/Engine/Bitmap.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "194">
+               </Location>
+               <Location
+                  uuid = "A95FD064-4420-4717-BDD5-CD3AD463664D - 5503699ffc98cb13"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EngineX.Bitmap.(blendPixel in _C210FD65CDFAFAC4B7CB1066B8648F68)(at: Swift.Int, with: EngineX.Color) -&gt; ()"
+                  moduleName = "EngineX"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/arthurconner/code/Rampage/Engine/Bitmap.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "231">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8B482DD9-5290-4FC8-A5DB-66188FA4DD57"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Engine/Bitmap.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "blendPixel(at:with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
