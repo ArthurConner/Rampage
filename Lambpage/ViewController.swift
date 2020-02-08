@@ -100,7 +100,7 @@ class ViewController: NSViewController {
         }
         
         keyboardActions.insert(act)
-        return event
+        return nil
     }
     
     override var representedObject: Any? {

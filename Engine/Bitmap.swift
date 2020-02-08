@@ -11,6 +11,8 @@ public struct Bitmap {
     public let width,height: Int
     public let isOpaque: Bool
     
+    public var transform:(Int)->Int = { return $0}
+    
     public init(width: Int, pixels: [Color]) {
         self.width = width
         self.pixels = pixels
@@ -26,7 +28,7 @@ public extension Bitmap {
         get { return pixels[x * height + y] }
         set {
             guard x >= 0, y >= 0, x < width, y < height else { return }
-            pixels[x * height + y] = newValue
+            pixels[transform(x * height + y)] = newValue
         }
     }
     
@@ -107,7 +109,7 @@ public extension Bitmap {
             for y in max(0, start) ..< min(self.height, end) {
                 let sourceY = (Double(y) - point.y) * stepY
                 let sourceColor = source[sourceX, Int(sourceY)]
-                pixels[offset + y] = sourceColor
+                pixels[transform(offset + y)] = sourceColor
             }
         } else {
             for y in max(0, start) ..< min(self.height, end) {
@@ -137,11 +139,11 @@ public extension Bitmap {
         case 0:
             break
         case 255:
-            pixels[index] = newColor
+            pixels[transform(index)] = newColor
         default:
-            let oldColor = pixels[index]
+            let oldColor = pixels[transform(index)]
             let inverseAlpha = 1 - Double(newColor.a) / 255
-            pixels[index] = Color(
+            pixels[transform(index)] = Color(
                 r: UInt8(Double(oldColor.r) * inverseAlpha) + newColor.r,
                 g: UInt8(Double(oldColor.g) * inverseAlpha) + newColor.g,
                 b: UInt8(Double(oldColor.b) * inverseAlpha) + newColor.b

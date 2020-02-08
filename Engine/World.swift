@@ -216,7 +216,7 @@ public extension World {
                         tile = map.closestFloorTile(to: x, y) ?? .wall
                     }
                     pushwalls.append(Pushwall(position: position, tile: tile))
-                case .switch:
+                case .sw_tch:
                     precondition(map[x, y].isWall, "Switch must be placed on a wall tile")
                     switches.append(Switch(position: position))
                 }
@@ -269,7 +269,7 @@ public extension World {
     }
     
     func `switch`(at x: Int, _ y: Int) -> Switch? {
-        guard map.things[y * map.width + x] == .switch else {
+        guard map.things[y * map.width + x] == .sw_tch else {
             return nil
         }
         return switches.first(where: {

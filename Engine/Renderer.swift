@@ -64,6 +64,27 @@ public extension Renderer {
             )
         }
         
+        if  !world.isRevealed {
+            let height = bitmap.height
+            let width = bitmap.width
+            
+            let xOffset = height/2 - Int(world.player.position.x * scale)
+            let yOffset = height/2 - Int(world.player.position.y * scale)
+            bitmap.transform = { i in
+                
+                let x = i/height + xOffset
+                let y = i%height + yOffset
+           
+                guard x >= 0 ,x <  width else {
+                    return 0
+                }
+                guard y >= 0 ,y <  height else {
+                    return 0
+                }
+                return x * height + y
+                
+            }
+        }
         for door in world.doors {
             let position = door.position + door.direction * (door.offset )
             drawRect(centered:position, texture: door.billboard.texture)
@@ -135,17 +156,23 @@ public extension Renderer {
         }
         
         if  !world.isRevealed {
-        for y in 0 ..< world.map.height {
-            for x in 0 ..< world.map.width {
-                if let c = world.seen[x, y]{
-                    let rect = Rect(
-                        min: Vector(x: Double(x), y: Double(y)) * scale,
-                        max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
-                    )
-                    bitmap.fillBlend(rect: rect, color: c.color, opacity: c.progress)
+            for y in 0 ..< world.map.height {
+                for x in 0 ..< world.map.width {
+                    if let c = world.seen[x, y]{
+                        let rect = Rect(
+                            min: Vector(x: Double(x), y: Double(y)) * scale,
+                            max: Vector(x: Double(x + 1), y: Double(y + 1)) * scale
+                        )
+                        bitmap.fillBlend(rect: rect, color: c.color, opacity: c.progress)
+                    }
                 }
             }
-        }
+            bitmap.transform = { i in
+                return i
+            }
+            
+            bitmap[0,0] = .black
+            
         }
         
         // Effects
