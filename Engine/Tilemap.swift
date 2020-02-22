@@ -7,11 +7,26 @@
 //
 
 
+public struct MapData: Decodable {
+    fileprivate let tiles: [Tile]
+    fileprivate let things: [Thing]
+    fileprivate let width: Int
+}
 
-public struct Tilemap: Decodable {
+
+public struct Tilemap {
     private(set) var tiles: [Tile]
     public let things: [Thing]
     public let width: Int
+    public let index: Int
+    
+    public init(_ map: MapData, index: Int) {
+        self.tiles = map.tiles
+        self.things = map.things
+        self.width = map.width
+        self.index = index
+    }
+    
 }
 
 public extension Tilemap {

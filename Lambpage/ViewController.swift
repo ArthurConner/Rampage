@@ -12,10 +12,13 @@ import EngineX
 private let maximumTimeStep: Double = 1 / 20
 private let worldTimeStep: Double = 1 / 120
 
-public func loadMap() -> Tilemap {
-    let jsonURL = Bundle.main.url(forResource: "Map", withExtension: "json")!
+public func loadLevels() -> [Tilemap] {
+    let jsonURL = Bundle.main.url(forResource: "Levels", withExtension: "json")!
     let jsonData = try! Data(contentsOf: jsonURL)
-    return try! JSONDecoder().decode(Tilemap.self, from: jsonData)
+    let levels = try! JSONDecoder().decode([MapData].self, from: jsonData)
+    return levels.enumerated().map { Tilemap($0.element, index: $0.offset) }
+    
+    
 }
 
 public func loadTextures() -> Textures {
@@ -39,7 +42,8 @@ class ViewController: NSViewController {
     
     private let imageView = NSImageView()
     private let textures = loadTextures()
-    private var world = World(map: loadMap())
+    private let levels =  loadLevels()
+    private lazy var world = World(map: levels[0])
     private var lastFrameTime = CACurrentMediaTime()
     
     
@@ -130,7 +134,12 @@ class ViewController: NSViewController {
         
         let worldSteps = (timeStep / worldTimeStep).rounded(.up)
         for _ in 0 ..< Int(worldSteps) {
-            world.update(timeStep: timeStep / worldSteps, input: input)
+            if let action = world.update(timeStep: timeStep / worldSteps, input: input) {
+                switch action {
+                case .loadLevel(let index):
+                    let index = index % levels.count
+                    world.setLevel(levels[index])                }
+            }
         }
         lastFrameTime = currentTime
         

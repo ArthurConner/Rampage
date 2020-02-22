@@ -6,6 +6,10 @@
 //  Copyright © 2019 Nick Lockwood. All rights reserved.
 //
 
+public enum WorldAction {
+    case loadLevel(Int)
+}
+
 public struct World {
     public private(set) var map: Tilemap
     public var seen = WorldVision(height: 1,width: 1)
@@ -38,7 +42,7 @@ public extension World {
     }
     
     //seen.update(self)
-    mutating func update(timeStep: Double, input: Input) {
+    mutating func update(timeStep: Double, input: Input) -> WorldAction?  {
         
         
         
@@ -54,12 +58,13 @@ public extension World {
         }
         
         // Check for level end
+     // Check for level end
         if isLevelEnded {
             if effects.isEmpty {
-                reset()
                 effects.append(Effect(type: .fadeIn, color: .black, duration: 0.5))
+                return .loadLevel(map.index + 1)
             }
-            return
+            return nil
         }
         
         seen.update(self)
@@ -74,7 +79,7 @@ public extension World {
         } else if effects.isEmpty {
             reset()
             effects.append(Effect(type: .fadeIn, color: .red, duration: 0.5))
-            return
+            return nil
         }
         
         seen.update(self)
@@ -139,6 +144,8 @@ public extension World {
         }
         
         player.avoidWalls(in: self)
+        
+        return nil
     }
     
     var sprites: [Billboard] {
@@ -275,6 +282,12 @@ public extension World {
         return switches.first(where: {
             Int($0.position.x) == x && Int($0.position.y) == y
         })
+    }
+    
+    mutating func setLevel(_ map: Tilemap) {
+        let effects = self.effects
+        self = World(map: map)
+        self.effects = effects
     }
     
 }

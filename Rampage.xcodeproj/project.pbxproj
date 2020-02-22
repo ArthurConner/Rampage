@@ -25,7 +25,7 @@
 		01D09AFB22A485040052745A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09AFA22A485040052745A /* Player.swift */; };
 		01D09AFD22A4873B0052745A /* Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09AFC22A4873B0052745A /* Rect.swift */; };
 		01D09AFF22A48E990052745A /* Tilemap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09AFE22A48E990052745A /* Tilemap.swift */; };
-		01D09B0122A493A70052745A /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = 01D09B0022A493A70052745A /* Map.json */; };
+		01D09B0122A493A70052745A /* Levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 01D09B0022A493A70052745A /* Levels.json */; };
 		01D09B0322A4958E0052745A /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09B0222A4958E0052745A /* Input.swift */; };
 		01D09B0522A5C9DB0052745A /* Ray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09B0422A5C9DB0052745A /* Ray.swift */; };
 		01D09B0722A6E09B0052745A /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D09B0622A6E09A0052745A /* Rotation.swift */; };
@@ -64,7 +64,7 @@
 		4ACA817523DBB0F7005AE9DA /* EngineX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACA813B23DBB002005AE9DA /* EngineX.framework */; };
 		4ACA817623DBB0F7005AE9DA /* EngineX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACA813B23DBB002005AE9DA /* EngineX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4ACA817B23DBB157005AE9DA /* NSImage+Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA817A23DBB157005AE9DA /* NSImage+Bitmap.swift */; };
-		4ACA817C23DBB45E005AE9DA /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = 01D09B0022A493A70052745A /* Map.json */; };
+		4ACA817C23DBB45E005AE9DA /* Levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 01D09B0022A493A70052745A /* Levels.json */; };
 		4ACA817E23DBD2FF005AE9DA /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA817D23DBD2FF005AE9DA /* Monster.swift */; };
 		4ACA817F23DBD2FF005AE9DA /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA817D23DBD2FF005AE9DA /* Monster.swift */; };
 		4ACA818123DBD778005AE9DA /* Billboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACA818023DBD778005AE9DA /* Billboard.swift */; };
@@ -156,7 +156,7 @@
 		01D09AFA22A485040052745A /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		01D09AFC22A4873B0052745A /* Rect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect.swift; sourceTree = "<group>"; };
 		01D09AFE22A48E990052745A /* Tilemap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tilemap.swift; sourceTree = "<group>"; };
-		01D09B0022A493A70052745A /* Map.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Map.json; sourceTree = "<group>"; };
+		01D09B0022A493A70052745A /* Levels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Levels.json; sourceTree = "<group>"; };
 		01D09B0222A4958E0052745A /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		01D09B0422A5C9DB0052745A /* Ray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
 		01D09B0622A6E09A0052745A /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 				016E41B4228E9A5B00ACF137 /* ViewController.swift */,
 				01D09AF422A482450052745A /* UIImage+Bitmap.swift */,
 				016E41B6228E9A5B00ACF137 /* Main.storyboard */,
-				01D09B0022A493A70052745A /* Map.json */,
+				01D09B0022A493A70052745A /* Levels.json */,
 				016E41B9228E9A5E00ACF137 /* Assets.xcassets */,
 				016E41BB228E9A5E00ACF137 /* LaunchScreen.storyboard */,
 				016E41BE228E9A5E00ACF137 /* Info.plist */,
@@ -557,7 +557,7 @@
 			files = (
 				016E41BD228E9A5E00ACF137 /* LaunchScreen.storyboard in Resources */,
 				016E41BA228E9A5E00ACF137 /* Assets.xcassets in Resources */,
-				01D09B0122A493A70052745A /* Map.json in Resources */,
+				01D09B0122A493A70052745A /* Levels.json in Resources */,
 				016E41B8228E9A5B00ACF137 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,7 +594,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ACA817C23DBB45E005AE9DA /* Map.json in Resources */,
+				4ACA817C23DBB45E005AE9DA /* Levels.json in Resources */,
 				4ACA816B23DBB0C7005AE9DA /* Assets.xcassets in Resources */,
 				4ACA816E23DBB0C7005AE9DA /* Main.storyboard in Resources */,
 			);

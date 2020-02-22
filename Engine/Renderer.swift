@@ -67,14 +67,20 @@ public extension Renderer {
         if  !world.isRevealed {
             let height = bitmap.height
             let width = bitmap.width
+           
             
-            let xOffset = height/2 - Int(world.player.position.x * scale)
-            let yOffset = height/2 - Int(world.player.position.y * scale)
+            let xOffset = -Int(world.player.position.x * scale)
+            let yOffset =  -Int(world.player.position.y * scale)
+            
             bitmap.transform = { i in
                 
-                let x = i/height + xOffset
-                let y = i%height + yOffset
-           
+                //center the points
+                var x = i/height + xOffset
+                var y = i%height + yOffset
+                x = Int(Double(x) )
+                y = Int(Double(y) )
+                x += width/2
+                y += height/2
                 guard x >= 0 ,x <  width else {
                     return 0
                 }
@@ -126,7 +132,7 @@ public extension Renderer {
                                viewWidth: 1.0,
                                direction: world.player.direction,
                                origin: world.player.position,
-                               columns: 15)
+                               columns: 5 )
         
         //    bitmap.drawLine(from: caster.viewStart * scale, to: (caster.viewStart + caster.viewPlane) * scale, color: .red)
         
@@ -172,6 +178,18 @@ public extension Renderer {
             }
             
             bitmap[0,0] = .black
+            /*
+            for y in stride(from: 1, to: bitmap.height , by: 2)   {
+                for x in stride(from: 1, to: bitmap.width, by: 2)  {
+                            let check =  bitmap[x-1,y]
+                                bitmap[x,y] = check
+                            bitmap[x-1,y-1] = check
+                            bitmap[x-1,y] = check
+                            bitmap[x,y-1] = check
+                            
+                           }
+                       }
+ */
             
         }
         

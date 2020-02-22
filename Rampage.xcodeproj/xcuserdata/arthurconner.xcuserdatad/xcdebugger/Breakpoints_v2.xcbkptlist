@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
             endingLineNumber = "75"
-            landmarkName = "update(_:)"
+            landmarkName = "fire(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,7 +64,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
             endingLineNumber = "73"
-            landmarkName = "update(_:)"
+            landmarkName = "fire(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -352,72 +352,24 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "180"
             endingLineNumber = "180"
-            landmarkName = "endLevel()"
+            landmarkName = "hurtMonster(at:damage:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6B87997A-6EAC-462A-8FCB-B0AE33105969"
+            uuid = "A6912876-F3CB-4B17-A839-DB8C1C9E1FA6"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Engine/Renderer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "draw2D(_:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E7D11906-5A4D-403A-B8CF-036BAFC84B48"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Engine/Renderer.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "draw2D(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E7D11906-5A4D-403A-B8CF-036BAFC84B48 - e63d07b37c06a4d8"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int) -&gt; Swift.Int in EngineX.Renderer.draw2D(EngineX.World) -&gt; ()"
-                  moduleName = "EngineX"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/arthurconner/code/RetroRampage/Source/Engine/Renderer.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "369">
-               </Location>
-               <Location
-                  uuid = "E7D11906-5A4D-403A-B8CF-036BAFC84B48 - e63d07b37c06a4d8"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int) -&gt; Swift.Int in EngineX.Renderer.draw2D(EngineX.World) -&gt; ()"
-                  moduleName = "EngineX"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/arthurconner/code/RetroRampage/Source/Engine/Renderer.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "509">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
